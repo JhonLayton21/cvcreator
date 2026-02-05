@@ -31,3 +31,93 @@
 .prose blockquote {
   @apply border-l-4 border-gray-300 pl-4 italic text-gray-600 my-4;
 }
+
+/* Export Buttons Styles */
+.export-buttons {
+  @apply flex flex-col gap-3 p-4 bg-white rounded-lg border border-gray-300;
+}
+
+.export-controls {
+  @apply flex gap-2;
+}
+
+.file-name-input {
+  @apply flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 font-sans;
+}
+
+.export-btn {
+  @apply px-4 py-2 bg-blue-600 text-white rounded-md font-semibold hover:bg-blue-700 transition-colors cursor-pointer;
+}
+
+.export-btn:disabled {
+  @apply bg-gray-400 cursor-not-allowed hover:bg-gray-400;
+}
+
+/* Validation Hints Styles */
+.validation-hints {
+  @apply bg-white rounded-lg border border-gray-300 overflow-hidden;
+}
+
+.validation-header {
+  @apply flex justify-between items-center p-4 cursor-pointer hover:bg-gray-50 transition-colors;
+}
+
+.validation-title {
+  @apply flex items-center gap-2 font-semibold text-gray-800;
+}
+
+.validation-icon {
+  @apply text-lg;
+}
+
+.toggle-icon {
+  @apply text-gray-600;
+}
+
+.validation-content {
+  @apply p-4 border-t border-gray-200 bg-gray-50;
+}
+
+.warnings-section,
+.suggestions-section,
+.stats-section {
+  @apply mb-4;
+}
+
+.warnings-section h4,
+.suggestions-section h4,
+.stats-section h4 {
+  @apply font-semibold text-gray-800 mb-2;
+}
+
+.warning-item {
+  @apply p-2 mb-2 rounded text-sm leading-relaxed;
+}
+
+.warning-item.warning {
+  @apply bg-yellow-50 border-l-4 border-yellow-400 text-yellow-800;
+}
+
+.warning-item.info {
+  @apply bg-blue-50 border-l-4 border-blue-400 text-blue-800;
+}
+
+.warning-item strong {
+  @apply font-semibold;
+}
+
+.stats-list {
+  @apply list-none p-0 space-y-2;
+}
+
+.stats-list li {
+  @apply flex justify-between items-center bg-white p-2 rounded border border-gray-200;
+}
+
+.stat-label {
+  @apply font-semibold text-gray-700;
+}
+
+.stat-value {
+  @apply bg-gray-100 px-2 py-1 rounded font-mono text-gray-900;
+}

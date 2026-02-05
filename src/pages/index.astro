@@ -1,6 +1,8 @@
 ---
 import EditorCV from "../components/EditorCV";
 import PreviewCV from "../components/PreviewCV";
+import ExportButtons from "../components/ExportButtons";
+import ValidationHints from "../components/ValidationHints";
 import "../styles/global.css";
 ---
 
@@ -21,6 +23,11 @@ import "../styles/global.css";
 				</p>
 			</header>
 
+			<!-- Validations Section -->
+			<section class="mb-4 flex-none">
+				<ValidationHints client:load />
+			</section>
+
 			<div class="flex-1 grid grid-cols-1 lg:grid-cols-2 gap-6 min-h-0">
 				<!-- Editor wrapper -->
 				<section class="flex flex-col h-full min-h-[400px]">
@@ -32,6 +39,11 @@ import "../styles/global.css";
 					<PreviewCV client:load />
 				</section>
 			</div>
+
+			<!-- Export Section -->
+			<section class="mt-6 flex-none">
+				<ExportButtons client:load />
+			</section>
 		</main>
 	</body>
 </html>
