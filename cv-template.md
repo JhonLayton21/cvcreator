@@ -1,16 +1,11 @@
-// Simple pub/sub store for resume content
-// Handles persistence to localStorage automatically
-
-const STORAGE_KEY = 'cv_markdown_content';
-
-const DEFAULT_CONTENT = `# NOMBRE COMPLETO
-Ciudad, País
+# NOMBRE COMPLETO
+Ciudad, País  
 Correo | Teléfono | LinkedIn | Portafolio | GitHub
 
 ---
 
 ## PERFIL PROFESIONAL
-Resumen breve (3–5 líneas) enfocado en el rol al que aplicas.
+Resumen breve (3–5 líneas) enfocado en el rol al que aplicas.  
 Usa verbos de acción, evita frases genéricas y menciona impacto o especialidad.
 
 Ejemplo:
@@ -43,17 +38,17 @@ Ciudad | Mes Año – Mes Año
 
 ## EDUCACIÓN
 
-Título – Institución
+Título – Institución  
 Ciudad | Año de finalización
 
 ---
 
 ## HABILIDADES TÉCNICAS
 
-- Lenguajes:
-- Frameworks / Librerías:
-- Herramientas:
-- Bases de datos:
+- Lenguajes:  
+- Frameworks / Librerías:  
+- Herramientas:  
+- Bases de datos:  
 
 ---
 
@@ -75,43 +70,3 @@ Ciudad | Año de finalización
 ## IDIOMAS
 
 - Idioma – Nivel
-`;
-
-let state = '';
-let saveTimeout = null;
-const listeners = new Set();
-
-// Initialize state from localStorage or default
-if (typeof window !== 'undefined') {
-  const stored = localStorage.getItem(STORAGE_KEY);
-  state = stored || DEFAULT_CONTENT;
-}
-
-export const resumeStore = {
-  get() {
-    return state;
-  },
-
-  set(content) {
-    if (state === content) return;
-    state = content;
-
-    // Persist
-    if (typeof window !== 'undefined') {
-      localStorage.setItem(STORAGE_KEY, state);
-    }
-
-    // Notify
-    listeners.forEach(listener => listener(state));
-  },
-
-  subscribe(listener) {
-    listeners.add(listener);
-    // Return current state immediately to new subscriber
-    listener(state);
-
-    return () => {
-      listeners.delete(listener);
-    };
-  }
-};
