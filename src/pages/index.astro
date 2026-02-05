@@ -1,17 +1,37 @@
 ---
-
+import EditorCV from "../components/EditorCV";
+import PreviewCV from "../components/PreviewCV";
+import "../styles/global.css";
 ---
 
-<html lang="en">
+<html lang="es">
 	<head>
 		<meta charset="utf-8" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
 		<meta name="viewport" content="width=device-width" />
 		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
+		<title>CV Creator - MVP</title>
 	</head>
-	<body>
-		<h1>Astro</h1>
+	<body class="bg-gray-50 min-h-screen">
+		<main class="container mx-auto p-4 h-screen flex flex-col">
+			<header class="mb-6 flex-none">
+				<h1 class="text-2xl font-bold text-gray-900">CV Creator</h1>
+				<p class="text-gray-600">
+					Edita tu currículum en Markdown y expórtalo a PDF o Word.
+				</p>
+			</header>
+
+			<div class="flex-1 grid grid-cols-1 lg:grid-cols-2 gap-6 min-h-0">
+				<!-- Editor wrapper -->
+				<section class="flex flex-col h-full min-h-[400px]">
+					<EditorCV client:load />
+				</section>
+
+				<!-- Preview wrapper -->
+				<section class="flex flex-col h-full min-h-[400px]">
+					<PreviewCV client:load />
+				</section>
+			</div>
+		</main>
 	</body>
 </html>
