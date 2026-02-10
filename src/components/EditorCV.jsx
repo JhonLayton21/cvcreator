@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { resumeStore } from '../utils/resumeStore';
+import { Button } from './ui/button';
+import { RotateCcw} from "lucide-react";
 
 const DEFAULT_TEMPLATE = `# NOMBRE COMPLETO
 Ciudad, País
@@ -111,13 +113,15 @@ export default function EditorCV() {
                     <h2 className="text-xl font-bold text-gray-800">Editor CV</h2>
                     <p className="text-sm text-gray-500">Edita tu información en Markdown.</p>
                 </div>
-                <button
+                <Button
                     onClick={handleResetTemplate}
-                    className="px-3 py-1 text-sm bg-gray-200 text-gray-800 rounded hover:bg-gray-300 transition-colors"
+                    variant="outline"
+                    size="xs"
                     title="Reestablecer a la plantilla por defecto"
                 >
-                    ↻ Reestablecer
-                </button>
+                    <RotateCcw className="h-4 w-4" />
+                    Reestablecer
+                </Button>
             </div>
             <textarea
                 className="flex-1 w-full p-4 border border-gray-300 rounded-md resize-none focus:outline-none focus:ring-2 focus:ring-gray-400 font-mono text-sm leading-relaxed"
