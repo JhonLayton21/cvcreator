@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { resumeStore } from '../utils/resumeStore';
 import { validateResume, getValidationStats } from '../utils/resumeValidator';
+import { Info, ChevronDown, ChevronUp } from "lucide-react"; 
 
 export default function ValidationHints() {
   const [warnings, setWarnings] = useState([]);
@@ -36,14 +37,14 @@ export default function ValidationHints() {
         tabIndex={0}
       >
         <div className="validation-title">
-          <span className="validation-icon">ℹ️</span>
+          <span className="validation-icon"><Info className="h-6 w-6"/></span>
           <span>
             {actualWarnings.length > 0
               ? `${actualWarnings.length} sugerencia${actualWarnings.length > 1 ? 's' : ''}`
               : `${infoWarnings.length} recomendación${infoWarnings.length > 1 ? 'es' : ''}`}
           </span>
         </div>
-        <span className="toggle-icon">{isExpanded ? '▼' : '▶'}</span>
+        <span className="toggle-icon">{isExpanded ? (<ChevronUp className="h-4 w-4"/>) : (<ChevronDown className="h-4 w-4"/>)}</span>
       </div>
 
       {isExpanded && (
