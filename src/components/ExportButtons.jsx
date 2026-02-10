@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { resumeStore } from '../utils/resumeStore';
 import { exportToDocx } from '../utils/exportToDocx';
 import { exportToPdf } from '../utils/exportToPdf';
+import { Button } from './ui/button';
+import { FileDown, FileText, FileType } from "lucide-react";
 
 export default function ExportButtons() {
   const [content, setContent] = useState('');
@@ -71,27 +73,30 @@ export default function ExportButtons() {
         />
       </div>
       <div className="flex gap-3 flex-wrap">
-        <button
+        <Button
           onClick={downloadMarkdown}
-          className="export-btn"
+          variant="default"
           disabled={isExporting}
         >
-          📄 Markdown (.md)
-        </button>
-        <button
+          <FileText className="mr-2 h-4 w-4" />
+          Markdown (.md)
+        </Button>
+        <Button
           onClick={handleExportDocx}
-          className="export-btn"
+          variant="default"
           disabled={isExporting}
         >
-          📝 Word (.docx)
-        </button>
-        <button
+          <FileType className="mr-2 h-4 w-4" />
+          Word (.docx)
+        </Button>
+        <Button
           onClick={handleExportPdf}
-          className="export-btn"
+          variant="default"
           disabled={isExporting}
         >
-          📕 PDF
-        </button>
+          <FileDown className="mr-2 h-4 w-4" />
+          PDF
+        </Button>
       </div>
       {isExporting && <p className="text-sm text-gray-500 mt-2">Exportando...</p>}
     </div>
