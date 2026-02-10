@@ -78,7 +78,7 @@ export default function ExportButtons() {
           variant="default"
           disabled={isExporting}
         >
-          <FileText className="mr-2 h-4 w-4" />
+          <FileText className="h-4 w-4" />
           Markdown (.md)
         </Button>
         <Button
@@ -86,7 +86,7 @@ export default function ExportButtons() {
           variant="default"
           disabled={isExporting}
         >
-          <FileType className="mr-2 h-4 w-4" />
+          <FileType className="h-4 w-4" />
           Word (.docx)
         </Button>
         <Button
@@ -94,7 +94,7 @@ export default function ExportButtons() {
           variant="default"
           disabled={isExporting}
         >
-          <FileDown className="mr-2 h-4 w-4" />
+          <FileDown className="h-4 w-4" />
           PDF
         </Button>
       </div>
