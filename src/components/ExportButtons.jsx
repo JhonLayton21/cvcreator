@@ -4,6 +4,8 @@ import { exportToDocx } from '../utils/exportToDocx';
 import { exportToPdf } from '../utils/exportToPdf';
 import { Button } from './ui/button';
 import { FileDown, FileText, FileType } from "lucide-react";
+import { Input } from "@/components/ui/input"
+import { Field, FieldLabel, FieldContent } from "@/components/ui/field"
 
 export default function ExportButtons() {
   const [content, setContent] = useState('');
@@ -64,19 +66,26 @@ export default function ExportButtons() {
   return (
     <div className="export-buttons">
       <div className="export-controls">
-        <input
-          type="text"
-          value={fileName}
-          onChange={(e) => setFileName(e.target.value)}
-          placeholder="Nombre del archivo"
-          className="file-name-input"
-        />
+        <Field>
+          <FieldLabel>Nombre del archivo:</FieldLabel>
+
+          <FieldContent>
+            <Input
+              type="text"
+              value={fileName}
+              onChange={(e) => setFileName(e.target.value)}
+              placeholder="Nombre del archivo"
+              className="file-name-input"
+            />
+          </FieldContent>
+        </Field>
       </div>
       <div className="flex gap-3 flex-wrap">
         <Button
           onClick={downloadMarkdown}
           variant="default"
           disabled={isExporting}
+          className="cursor-pointer"
         >
           <FileText className="h-4 w-4" />
           Markdown (.md)
@@ -85,6 +94,7 @@ export default function ExportButtons() {
           onClick={handleExportDocx}
           variant="default"
           disabled={isExporting}
+          className="cursor-pointer"
         >
           <FileType className="h-4 w-4" />
           Word (.docx)
@@ -93,6 +103,7 @@ export default function ExportButtons() {
           onClick={handleExportPdf}
           variant="default"
           disabled={isExporting}
+          className="cursor-pointer"
         >
           <FileDown className="h-4 w-4" />
           PDF
