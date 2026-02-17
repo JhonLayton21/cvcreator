@@ -38,8 +38,9 @@
 
 /* Export Buttons Styles */
 .export-buttons {
-  @apply flex flex-col gap-3 p-4 bg-white rounded-lg border border-gray-300;
+  @apply flex items-center justify-between gap-3 p-4 bg-white rounded-lg border border-gray-300;
 }
+
 
 .export-controls {
   @apply flex gap-2;

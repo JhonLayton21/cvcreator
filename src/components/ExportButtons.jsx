@@ -75,7 +75,7 @@ export default function ExportButtons() {
               value={fileName}
               onChange={(e) => setFileName(e.target.value)}
               placeholder="Nombre del archivo"
-              className="file-name-input"
+              className="file-name-input bg-white"
             />
           </FieldContent>
         </Field>
