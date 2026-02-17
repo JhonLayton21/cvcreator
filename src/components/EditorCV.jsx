@@ -118,9 +118,10 @@ export default function EditorCV() {
                     variant="outline"
                     size="xs"
                     title="Reestablecer a la plantilla por defecto"
+                    className="cursor-pointer"
                 >
-                    <RotateCcw className="h-4 w-4" />
-                    Reestablecer
+                    <RotateCcw className="h-4 w-4 text-neutral-700" />
+                    <span className="text-neutral-700">Reestablecer</span>
                 </Button>
             </div>
             <textarea
