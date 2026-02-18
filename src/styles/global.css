@@ -127,6 +127,38 @@
   @apply bg-gray-100 dark:bg-muted px-2 py-1 rounded font-mono text-gray-900 dark:text-foreground transition-colors duration-300;
 }
 
+/* Validation Hints - Mobile/Tablet: botón flotante */
+@keyframes validation-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+.validation-floating-btn {
+  @apply fixed bottom-6 left-6 z-40 w-14 h-14 rounded-full flex items-center justify-center text-white shadow-lg cursor-pointer transition-transform hover:scale-105 active:scale-95;
+  @apply bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600;
+  animation: validation-float 2.5s ease-in-out infinite;
+}
+
+.validation-overlay {
+  @apply fixed inset-0 z-50 bg-black/40 flex items-end sm:items-center justify-center p-4;
+}
+
+.validation-panel-modal {
+  @apply bg-white dark:bg-card rounded-lg border border-gray-300 dark:border-border overflow-hidden transition-colors duration-300 w-full max-w-lg max-h-[85vh] flex flex-col;
+}
+
+.validation-panel-modal .validation-content {
+  @apply overflow-y-auto flex-1 min-h-0;
+}
+
+.validation-panel-header {
+  @apply flex justify-between items-center p-4 cursor-default flex-none;
+}
+
+.validation-close-btn {
+  @apply p-1.5 rounded-md hover:bg-gray-200 dark:hover:bg-accent transition-colors text-gray-600 dark:text-muted-foreground;
+}
+
 @theme inline {
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
