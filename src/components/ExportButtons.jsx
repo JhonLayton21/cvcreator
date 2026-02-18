@@ -75,7 +75,7 @@ export default function ExportButtons() {
               value={fileName}
               onChange={(e) => setFileName(e.target.value)}
               placeholder="Nombre del archivo"
-              className="file-name-input bg-white"
+              className="file-name-input"
             />
           </FieldContent>
         </Field>
@@ -109,7 +109,7 @@ export default function ExportButtons() {
           PDF
         </Button>
       </div>
-      {isExporting && <p className="text-sm text-gray-500 mt-2">Exportando...</p>}
+      {isExporting && <p className="text-sm text-gray-500 dark:text-muted-foreground mt-2">Exportando...</p>}
     </div>
   );
 }

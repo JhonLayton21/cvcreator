@@ -110,8 +110,8 @@ export default function EditorCV() {
         <div className="h-full flex flex-col font-sans">
             <div className="mb-4 flex justify-between items-start">
                 <div>
-                    <h2 className="text-xl font-bold text-gray-800">Editor CV</h2>
-                    <p className="text-sm text-gray-500">Edita tu información en Markdown.</p>
+                    <h2 className="text-xl font-bold text-gray-800 dark:text-foreground">Editor CV</h2>
+                    <p className="text-sm text-gray-500 dark:text-muted-foreground">Edita tu información en Markdown.</p>
                 </div>
                 <Button
                     onClick={handleResetTemplate}
@@ -120,12 +120,12 @@ export default function EditorCV() {
                     title="Reestablecer a la plantilla por defecto"
                     className="cursor-pointer"
                 >
-                    <RotateCcw className="h-4 w-4 text-neutral-700" />
-                    <span className="text-neutral-700">Reestablecer</span>
+                    <RotateCcw className="h-4 w-4 text-neutral-700 dark:text-foreground" />
+                    <span className="text-neutral-700 dark:text-foreground">Reestablecer</span>
                 </Button>
             </div>
             <textarea
-                className="flex-1 w-full p-4 border border-gray-300 rounded-md resize-none focus:outline-none focus:ring-2 focus:ring-gray-400 font-mono text-sm leading-relaxed"
+                className="flex-1 w-full p-4 border border-gray-300 dark:border-input rounded-md resize-none focus:outline-none focus:ring-2 focus:ring-gray-400 dark:focus:ring-ring font-mono text-sm leading-relaxed bg-background text-foreground transition-colors duration-300"
                 value={content}
                 onChange={handleChange}
                 placeholder="# Tu Nombre..."

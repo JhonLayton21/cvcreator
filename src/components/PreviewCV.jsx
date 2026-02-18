@@ -34,13 +34,13 @@ export default function PreviewCV() {
     return (
         <div className="h-full flex flex-col font-sans">
             <div className="mb-4">
-                <h2 className="text-xl font-bold text-gray-800">Vista Previa</h2>
-                <p className="text-sm text-gray-500">Documento final.</p>
+                <h2 className="text-xl font-bold text-gray-800 dark:text-foreground">Vista Previa</h2>
+                <p className="text-sm text-gray-500 dark:text-muted-foreground">Documento final.</p>
             </div>
 
             {/* Contenedor de la vista previa con estilos definidos en global.css (.prose) */}
             <div
-                className="flex-1 w-full bg-white p-8 border border-gray-300 shadow-sm rounded-md overflow-y-auto prose max-w-none"
+                className="flex-1 w-full bg-white dark:bg-card p-8 border border-gray-300 dark:border-border shadow-sm rounded-md overflow-y-auto prose max-w-none transition-colors duration-300"
                 dangerouslySetInnerHTML={{ __html: htmlContent }}
             />
         </div>
