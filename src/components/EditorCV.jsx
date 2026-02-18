@@ -107,7 +107,7 @@ export default function EditorCV() {
     };
 
     return (
-        <div className="h-full flex flex-col font-sans">
+        <div className="h-full min-h-0 flex flex-col font-sans">
             <div className="mb-4 flex justify-between items-start">
                 <div>
                     <h2 className="text-xl font-bold text-gray-800 dark:text-foreground">Editor CV</h2>
@@ -125,7 +125,7 @@ export default function EditorCV() {
                 </Button>
             </div>
             <textarea
-                className="flex-1 w-full p-4 border border-gray-300 dark:border-input rounded-md resize-none focus:outline-none focus:ring-2 focus:ring-gray-400 dark:focus:ring-ring font-mono text-sm leading-relaxed bg-background text-foreground transition-colors duration-300"
+                className="flex-1 min-h-0 w-full p-4 border border-gray-300 dark:border-input rounded-md resize-none focus:outline-none focus:ring-2 focus:ring-gray-400 dark:focus:ring-ring font-mono text-sm leading-relaxed bg-background text-foreground transition-colors duration-300"
                 value={content}
                 onChange={handleChange}
                 placeholder="# Tu Nombre..."
