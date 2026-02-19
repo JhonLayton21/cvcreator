@@ -3,7 +3,7 @@ import { resumeStore } from "../utils/resumeStore";
 import { exportToDocx } from "../utils/exportToDocx";
 import { exportToPdf } from "../utils/exportToPdf";
 import { Button } from "./ui/button";
-import { FileDown, FileText, FileType } from "lucide-react";
+import { FileDown, FileText, FileType, Download, X } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Field, FieldLabel, FieldContent } from "@/components/ui/field";
 
@@ -11,9 +11,9 @@ export default function ExportButtons() {
   const [content, setContent] = useState("");
   const [fileName, setFileName] = useState("curriculum");
   const [isExporting, setIsExporting] = useState(false);
+  const [mobilePanelOpen, setMobilePanelOpen] = useState(false);
 
   useEffect(() => {
-    // Subscribe to store updates
     const unsubscribe = resumeStore.subscribe((newContent) => {
       setContent(newContent);
     });
@@ -36,6 +36,7 @@ export default function ExportButtons() {
       alert("Por favor, escribe contenido antes de exportar.");
       return;
     }
+
     setIsExporting(true);
     try {
       await exportToDocx(content, fileName);
@@ -52,6 +53,7 @@ export default function ExportButtons() {
       alert("Por favor, escribe contenido antes de exportar.");
       return;
     }
+
     setIsExporting(true);
     try {
       await exportToPdf(content, fileName);
@@ -63,7 +65,8 @@ export default function ExportButtons() {
     }
   };
 
-  return (
+  // 👇 contenido del panel reutilizable
+  const ExportPanelContent = () => (
     <div className="export-buttons">
       <div className="export-controls">
         <Field>
@@ -80,10 +83,10 @@ export default function ExportButtons() {
           </FieldContent>
         </Field>
       </div>
-      <div className="flex gap-3 flex-wrap justify-end">
+
+      <div className="flex gap-3 flex-wrap justify-end mt-4">
         <Button
           onClick={downloadMarkdown}
-          variant="default"
           disabled={isExporting}
           className="cursor-pointer"
         >
@@ -93,7 +96,6 @@ export default function ExportButtons() {
 
         <Button
           onClick={handleExportDocx}
-          variant="default"
           disabled={isExporting}
           className="cursor-pointer"
         >
@@ -103,7 +105,6 @@ export default function ExportButtons() {
 
         <Button
           onClick={handleExportPdf}
-          variant="default"
           disabled={isExporting}
           className="cursor-pointer"
         >
@@ -118,5 +119,58 @@ export default function ExportButtons() {
         </p>
       )}
     </div>
+  );
+
+  return (
+    <>
+      {/* Desktop → comportamiento normal */}
+      <div className="hidden lg:block">
+        <ExportPanelContent />
+      </div>
+
+      {/* Mobile/Tablet → botón flotante */}
+      <div className="lg:hidden">
+        {/* Botón flotante */}
+        <button
+          type="button"
+          onClick={() => setMobilePanelOpen(true)}
+          className="fixed bottom-6 right-6 z-50
+                     w-14 h-14 rounded-full
+                     bg-black text-white
+                     flex items-center justify-center
+                     shadow-lg hover:scale-105 transition"
+          aria-label="Exportar archivo"
+        >
+          <Download className="h-6 w-6" />
+        </button>
+
+        {/* Overlay + modal */}
+        {mobilePanelOpen && (
+          <div
+            className="fixed inset-0 bg-black/50 z-50 flex items-end"
+            onClick={() => setMobilePanelOpen(false)}
+          >
+            <div
+              className="w-full bg-background rounded-t-2xl p-6 max-h-[85vh] overflow-auto"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Header */}
+              <div className="flex justify-between items-center mb-4">
+                <h3 className="font-semibold text-lg">Exportar archivo</h3>
+
+                <button
+                  onClick={() => setMobilePanelOpen(false)}
+                  className="p-2 hover:bg-muted rounded"
+                >
+                  <X className="h-5 w-5" />
+                </button>
+              </div>
+
+              <ExportPanelContent />
+            </div>
+          </div>
+        )}
+      </div>
+    </>
   );
 }
