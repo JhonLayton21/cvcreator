@@ -1,17 +1,17 @@
-import React, { useState, useEffect } from 'react';
-import { resumeStore } from '../utils/resumeStore';
-import { validateResume, getValidationStats } from '../utils/resumeValidator';
-import { Info, ChevronDown, ChevronUp, X } from "lucide-react";
+import React, { useState, useEffect } from "react";
+import { resumeStore } from "../utils/resumeStore";
+import { validateResume, getValidationStats } from "../utils/resumeValidator";
+import { Info, X } from "lucide-react";
 
 function ValidationPanelContent({ actualWarnings, infoWarnings, stats }) {
   return (
-    <div className="validation-content">
+    <div className="space-y-6">
       {actualWarnings.length > 0 && (
-        <div className="warnings-section">
-          <h4>Secciones sugeridas:</h4>
-          <ul>
+        <div>
+          <h4 className="font-semibold mb-2">Secciones sugeridas:</h4>
+          <ul className="space-y-2">
             {actualWarnings.map((warning) => (
-              <li key={warning.code} className="warning-item warning">
+              <li key={warning.code} className="text-sm">
                 <strong>{warning.title}:</strong> {warning.message}
               </li>
             ))}
@@ -20,11 +20,11 @@ function ValidationPanelContent({ actualWarnings, infoWarnings, stats }) {
       )}
 
       {infoWarnings.length > 0 && (
-        <div className="suggestions-section">
-          <h4>Recomendaciones:</h4>
-          <ul>
+        <div>
+          <h4 className="font-semibold mb-2">Recomendaciones:</h4>
+          <ul className="space-y-2">
             {infoWarnings.map((warning) => (
-              <li key={warning.code} className="warning-item info">
+              <li key={warning.code} className="text-sm">
                 <strong>{warning.title}:</strong> {warning.message}
               </li>
             ))}
@@ -33,25 +33,15 @@ function ValidationPanelContent({ actualWarnings, infoWarnings, stats }) {
       )}
 
       {stats && (
-        <div className="stats-section">
-          <h4>Estadísticas del currículum:</h4>
-          <ul className="stats-list">
-            <li>
-              <span className="stat-label">Palabras:</span>
-              <span className="stat-value">{stats.words}</span>
-            </li>
-            <li>
-              <span className="stat-label">Secciones:</span>
-              <span className="stat-value">{stats.headings}</span>
-            </li>
-            <li>
-              <span className="stat-label">Puntos clave:</span>
-              <span className="stat-value">{stats.listItems}</span>
-            </li>
-            <li>
-              <span className="stat-label">Líneas:</span>
-              <span className="stat-value">{stats.lines}</span>
-            </li>
+        <div>
+          <h4 className="font-semibold mb-2">
+            Estadísticas del currículum:
+          </h4>
+          <ul className="grid grid-cols-2 gap-2 text-sm">
+            <li><strong>Palabras:</strong> {stats.words}</li>
+            <li><strong>Secciones:</strong> {stats.headings}</li>
+            <li><strong>Puntos clave:</strong> {stats.listItems}</li>
+            <li><strong>Líneas:</strong> {stats.lines}</li>
           </ul>
         </div>
       )}
@@ -62,8 +52,7 @@ function ValidationPanelContent({ actualWarnings, infoWarnings, stats }) {
 export default function ValidationHints() {
   const [warnings, setWarnings] = useState([]);
   const [stats, setStats] = useState(null);
-  const [isExpanded, setIsExpanded] = useState(false);
-  const [mobilePanelOpen, setMobilePanelOpen] = useState(false);
+  const [panelOpen, setPanelOpen] = useState(false);
 
   useEffect(() => {
     const unsubscribe = resumeStore.subscribe((content) => {
@@ -77,90 +66,76 @@ export default function ValidationHints() {
     return unsubscribe;
   }, []);
 
-  if (!warnings.length) {
-    return null;
-  }
+  if (!warnings.length) return null;
 
-  const infoWarnings = warnings.filter((w) => w.severity === 'info');
-  const actualWarnings = warnings.filter((w) => w.severity === 'warning');
-  const hintLabel = actualWarnings.length > 0
-    ? `${actualWarnings.length} sugerencia${actualWarnings.length > 1 ? 's' : ''}`
-    : `${infoWarnings.length} recomendación${infoWarnings.length > 1 ? 'es' : ''}`;
+  const infoWarnings = warnings.filter((w) => w.severity === "info");
+  const actualWarnings = warnings.filter((w) => w.severity === "warning");
+
+  const hintLabel =
+    actualWarnings.length > 0
+      ? `${actualWarnings.length} sugerencia${
+          actualWarnings.length > 1 ? "s" : ""
+        }`
+      : `${infoWarnings.length} recomendación${
+          infoWarnings.length > 1 ? "es" : ""
+        }`;
 
   return (
     <>
-      {/* Desktop: comportamiento actual */}
-      <div className="hidden lg:block validation-hints">
+      {/* Botón flotante SIEMPRE visible */}
+      <button
+        type="button"
+        onClick={() => setPanelOpen(true)}
+        className="fixed bottom-6 left-6 z-50
+                   w-14 h-14 rounded-full
+                   bg-blue-600 text-white
+                   flex items-center justify-center
+                   shadow-lg hover:scale-105 transition"
+        aria-label={hintLabel}
+      >
+        <Info className="h-6 w-6" />
+      </button>
+
+      {/* Overlay + Modal */}
+      {panelOpen && (
         <div
-          className="validation-header"
-          onClick={() => setIsExpanded(!isExpanded)}
-          role="button"
-          tabIndex={0}
-          onKeyDown={(e) => e.key === 'Enter' && setIsExpanded(!isExpanded)}
+          className="fixed inset-0 bg-black/50 z-50 flex items-end lg:items-center justify-center"
+          onClick={() => setPanelOpen(false)}
         >
-          <div className="validation-title">
-            <span className="validation-icon"><Info className="h-6 w-6" /></span>
-            <span>{hintLabel}</span>
-          </div>
-          <span className="toggle-icon">{isExpanded ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}</span>
-        </div>
-
-        {isExpanded && (
-          <ValidationPanelContent
-            actualWarnings={actualWarnings}
-            infoWarnings={infoWarnings}
-            stats={stats}
-          />
-        )}
-      </div>
-
-      {/* Mobile/Tablet: botón flotante + panel al interactuar */}
-      <div className="lg:hidden">
-        <button
-          type="button"
-          onClick={() => setMobilePanelOpen(!mobilePanelOpen)}
-          className="validation-floating-btn"
-          title={hintLabel}
-          aria-label={hintLabel}
-        >
-          <Info className="h-6 w-6" />
-        </button>
-
-        {mobilePanelOpen && (
           <div
-            className="validation-overlay"
-            onClick={() => setMobilePanelOpen(false)}
-            role="presentation"
+            className="w-full lg:w-[500px]
+                       bg-background
+                       rounded-t-2xl lg:rounded-2xl
+                       p-6
+                       max-h-[85vh]
+                       overflow-auto"
+            onClick={(e) => e.stopPropagation()}
           >
-            <div
-              className="validation-panel-modal"
-              onClick={(e) => e.stopPropagation()}
-              role="dialog"
-              aria-label="Panel de validación"
-            >
-              <div className="validation-panel-header">
-                <div className="validation-title">
-                  <span className="validation-icon"><Info className="h-6 w-6" /></span>
-                  <span>{hintLabel}</span>
-                </div>
-                <button
-                  type="button"
-                  onClick={() => setMobilePanelOpen(false)}
-                  className="validation-close-btn"
-                  aria-label="Cerrar panel"
-                >
-                  <X className="h-5 w-5" />
-                </button>
+            {/* Header */}
+            <div className="flex justify-between items-center mb-6">
+              <div className="flex items-center gap-2">
+                <Info className="h-5 w-5" />
+                <h3 className="font-semibold text-lg">
+                  {hintLabel}
+                </h3>
               </div>
-              <ValidationPanelContent
-                actualWarnings={actualWarnings}
-                infoWarnings={infoWarnings}
-                stats={stats}
-              />
+
+              <button
+                onClick={() => setPanelOpen(false)}
+                className="p-2 hover:bg-muted rounded"
+              >
+                <X className="h-5 w-5" />
+              </button>
             </div>
+
+            <ValidationPanelContent
+              actualWarnings={actualWarnings}
+              infoWarnings={infoWarnings}
+              stats={stats}
+            />
           </div>
-        )}
-      </div>
+        </div>
+      )}
     </>
   );
 }
