@@ -11,7 +11,7 @@ export default function ExportButtons() {
   const [content, setContent] = useState("");
   const [fileName, setFileName] = useState("curriculum");
   const [isExporting, setIsExporting] = useState(false);
-  const [mobilePanelOpen, setMobilePanelOpen] = useState(false);
+  const [panelOpen, setPanelOpen] = useState(false);
 
   useEffect(() => {
     const unsubscribe = resumeStore.subscribe((newContent) => {
@@ -65,56 +65,39 @@ export default function ExportButtons() {
     }
   };
 
-  // 👇 contenido del panel reutilizable
   const ExportPanelContent = () => (
-    <div className="export-buttons">
-      <div className="export-controls">
-        <Field>
-          <FieldLabel>Nombre del archivo:</FieldLabel>
+    <div>
+      <Field>
+        <FieldLabel>Nombre del archivo:</FieldLabel>
+        <FieldContent>
+          <Input
+            type="text"
+            value={fileName}
+            onChange={(e) => setFileName(e.target.value)}
+            placeholder="Nombre del archivo"
+          />
+        </FieldContent>
+      </Field>
 
-          <FieldContent>
-            <Input
-              type="text"
-              value={fileName}
-              onChange={(e) => setFileName(e.target.value)}
-              placeholder="Nombre del archivo"
-              className="file-name-input"
-            />
-          </FieldContent>
-        </Field>
-      </div>
-
-      <div className="flex gap-3 flex-wrap justify-end mt-4">
-        <Button
-          onClick={downloadMarkdown}
-          disabled={isExporting}
-          className="cursor-pointer"
-        >
+      <div className="flex gap-3 flex-wrap justify-end mt-6">
+        <Button onClick={downloadMarkdown} disabled={isExporting}>
           <FileText className="h-4 w-4" />
           Markdown (.md)
         </Button>
 
-        <Button
-          onClick={handleExportDocx}
-          disabled={isExporting}
-          className="cursor-pointer"
-        >
+        <Button onClick={handleExportDocx} disabled={isExporting}>
           <FileType className="h-4 w-4" />
           Word (.docx)
         </Button>
 
-        <Button
-          onClick={handleExportPdf}
-          disabled={isExporting}
-          className="cursor-pointer"
-        >
+        <Button onClick={handleExportPdf} disabled={isExporting}>
           <FileDown className="h-4 w-4" />
           PDF
         </Button>
       </div>
 
       {isExporting && (
-        <p className="text-sm text-gray-500 dark:text-muted-foreground mt-2">
+        <p className="text-sm text-muted-foreground mt-4">
           Exportando...
         </p>
       )}
@@ -123,54 +106,53 @@ export default function ExportButtons() {
 
   return (
     <>
-      {/* Desktop → comportamiento normal */}
-      <div className="hidden lg:block">
-        <ExportPanelContent />
-      </div>
+      {/* Botón flotante SIEMPRE visible */}
+      <button
+        type="button"
+        onClick={() => setPanelOpen(true)}
+        className="fixed bottom-6 right-6 z-50
+                   w-14 h-14 rounded-full
+                   bg-black text-white
+                   flex items-center justify-center
+                   shadow-lg hover:scale-105 transition"
+        aria-label="Exportar archivo"
+      >
+        <Download className="h-6 w-6" />
+      </button>
 
-      {/* Mobile/Tablet → botón flotante */}
-      <div className="lg:hidden">
-        {/* Botón flotante */}
-        <button
-          type="button"
-          onClick={() => setMobilePanelOpen(true)}
-          className="fixed bottom-6 right-6 z-50
-                     w-14 h-14 rounded-full
-                     bg-black text-white
-                     flex items-center justify-center
-                     shadow-lg hover:scale-105 transition"
-          aria-label="Exportar archivo"
+      {/* Overlay + modal */}
+      {panelOpen && (
+        <div
+          className="fixed inset-0 bg-black/50 z-50 flex items-end lg:items-center justify-center"
+          onClick={() => setPanelOpen(false)}
         >
-          <Download className="h-6 w-6" />
-        </button>
-
-        {/* Overlay + modal */}
-        {mobilePanelOpen && (
           <div
-            className="fixed inset-0 bg-black/50 z-50 flex items-end"
-            onClick={() => setMobilePanelOpen(false)}
+            className="w-full lg:w-[500px]
+                       bg-background
+                       rounded-t-2xl lg:rounded-2xl
+                       p-6
+                       max-h-[85vh]
+                       overflow-auto"
+            onClick={(e) => e.stopPropagation()}
           >
-            <div
-              className="w-full bg-background rounded-t-2xl p-6 max-h-[85vh] overflow-auto"
-              onClick={(e) => e.stopPropagation()}
-            >
-              {/* Header */}
-              <div className="flex justify-between items-center mb-4">
-                <h3 className="font-semibold text-lg">Exportar archivo</h3>
+            {/* Header */}
+            <div className="flex justify-between items-center mb-6">
+              <h3 className="font-semibold text-lg">
+                Exportar archivo
+              </h3>
 
-                <button
-                  onClick={() => setMobilePanelOpen(false)}
-                  className="p-2 hover:bg-muted rounded"
-                >
-                  <X className="h-5 w-5" />
-                </button>
-              </div>
-
-              <ExportPanelContent />
+              <button
+                onClick={() => setPanelOpen(false)}
+                className="p-2 hover:bg-muted rounded"
+              >
+                <X className="h-5 w-5" />
+              </button>
             </div>
+
+            <ExportPanelContent />
           </div>
-        )}
-      </div>
+        </div>
+      )}
     </>
   );
 }
