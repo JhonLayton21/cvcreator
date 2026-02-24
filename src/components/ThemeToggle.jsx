@@ -33,9 +33,9 @@ export default function ThemeToggle() {
 			aria-label={theme === 'light' ? 'Activar modo oscuro' : 'Activar modo claro'}
 		>
 			{theme === 'light' ? (
-				<Moon className="h-5 w-5" />
+				<Moon className="h-6 w-6" />
 			) : (
-				<Sun className="h-5 w-5" />
+				<Sun className="h-6 w-6" />
 			)}
 		</Button>
 	);
