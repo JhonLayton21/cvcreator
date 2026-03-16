@@ -2,8 +2,9 @@ import React, { useState, useEffect } from "react";
 import { resumeStore } from "../utils/resumeStore";
 import { exportToDocx } from "../utils/exportToDocx";
 import { exportToPdf } from "../utils/exportToPdf";
+import { exportCVInEnglish } from "../utils/exportCVByLanguage";
 import { Button } from "./ui/button";
-import { FileDown, FileText, FileType, Download, X } from "lucide-react";
+import { FileDown, FileText, FileType, Download, X, Globe } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Field, FieldLabel, FieldContent } from "@/components/ui/field";
 
@@ -65,6 +66,29 @@ export default function ExportButtons() {
     }
   };
 
+  const handleExportEnglishPdf = async () => {
+    if (!content.trim()) {
+      alert("Por favor, escribe contenido antes de exportar.");
+      return;
+    }
+
+    setIsExporting(true);
+    console.log("[ExportButtons] Starting English PDF export...");
+    console.log("[ExportButtons] Content length:", content.length);
+    
+    try {
+      console.log("[ExportButtons] Calling exportCVInEnglish");
+      await exportCVInEnglish(content, fileName);
+      console.log("[ExportButtons] Export completed successfully");
+    } catch (error) {
+      console.error("[ExportButtons] Export error:", error);
+      alert("Error al exportar el CV en inglés. Por favor, intenta nuevamente.");
+      console.error(error);
+    } finally {
+      setIsExporting(false);
+    }
+  };
+
   const ExportPanelContent = () => (
     <div>
       <Field>
@@ -93,6 +117,11 @@ export default function ExportButtons() {
         <Button onClick={handleExportPdf} disabled={isExporting}>
           <FileDown className="h-4 w-4" />
           PDF
+        </Button>
+
+        <Button onClick={handleExportEnglishPdf} disabled={isExporting}>
+          <Globe className="h-4 w-4" />
+          Download CV in English (PDF)
         </Button>
       </div>
 

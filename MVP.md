@@ -197,3 +197,86 @@ Este proyecto prioriza:
 
 Si algo “se ve bonito” pero no aporta valor real,
 no debe implementarse.
+
+## 13. Exportación en inglés (PDF)
+
+El sistema debe permitir descargar una versión del CV en inglés,
+independientemente del idioma en el que el usuario haya escrito el contenido.
+
+Para el MVP se implementará un botón adicional:
+
+"Download CV in English (PDF)"
+
+Comportamiento
+
+Al presionar el botón:
+
+El sistema genera una versión traducida del contenido del CV a inglés.
+
+Se renderiza internamente esa versión en Markdown.
+
+Esa versión se convierte a HTML.
+
+Se genera un PDF basado en ese contenido.
+
+El archivo se descarga automáticamente.
+
+El contenido visible en el editor no debe modificarse permanentemente.
+
+La traducción debe ocurrir únicamente para el proceso de exportación.
+
+Requisitos del PDF en inglés
+
+El documento exportado debe mantener:
+
+Estructura ATS-friendly
+
+Una sola columna
+
+Texto plano
+
+Encabezados claros
+
+Listas bien formateadas
+
+Fuente ATS-safe
+
+Texto seleccionable
+
+La traducción no debe introducir estilos visuales adicionales.
+
+Consideraciones técnicas
+
+La generación del CV en inglés debe realizarse de forma desacoplada del editor,
+para evitar alterar el contenido que el usuario está editando.
+
+El flujo esperado es:
+
+Editor Markdown (idioma original)
+→ Generación de versión en inglés
+→ Render Markdown
+→ Conversión a HTML
+→ Generación de PDF
+→ Descarga
+
+Preparación para soporte multi-idioma
+
+Aunque el MVP solo incluirá exportación en inglés,
+la arquitectura debe permitir añadir otros idiomas en el futuro.
+
+Ejemplos potenciales:
+
+Download CV in Spanish
+
+Download CV in German
+
+Download CV in French
+
+Por esta razón, la lógica de exportación debe diseñarse con un sistema de idioma configurable.
+
+Ejemplo conceptual:
+
+exportCV(language: "en")
+
+Esto permitirá extender fácilmente el sistema a múltiples idiomas
+sin modificar el editor principal.
