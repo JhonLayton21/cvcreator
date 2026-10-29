@@ -1,0 +1,17 @@
+---
+import CvWorkspace from '../../components/CvWorkspace';
+import '../../styles/global.css';
+
+const { id } = Astro.params;
+---
+
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Editor de CV | CV Creator</title>
+  </head>
+  <body>
+    <CvWorkspace client:load cvId={id} />
+  </body>
+</html>

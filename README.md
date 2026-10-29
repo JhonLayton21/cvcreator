@@ -16,7 +16,7 @@ CV Creator facilita la creación de currículums profesionales enfocados en:
 - Editor de texto plano con soporte completo para Markdown
 - Plantilla preconfigurada con secciones estándar
 - Botón para reestablecer la plantilla en cualquier momento
-- Autoguardado automático en navegador
+- Autoguardado local para visitantes sin cuenta
 
 ### 👁️ Vista previa en tiempo real
 - Renderización instantánea de cambios
@@ -51,9 +51,10 @@ CV Creator facilita la creación de currículums profesionales enfocados en:
 
 ### ⚙️ Características técnicas
 - Nombre de archivo personalizable para todas las exportaciones
-- Persistencia de datos en localStorage
-- Sin necesidad de registro o autenticación
-- Uso completamente offline después de cargar
+- Modo invitado para crear y exportar sin registro
+- Inicio de sesión por correo/contraseña y Google con Supabase Auth
+- Panel de CVs con vistas de cuadrícula/lista y operaciones CRUD
+- Guardado en Supabase Postgres con Row Level Security (RLS)
 
 ## 🚀 Quick Start
 
@@ -76,6 +77,10 @@ npm run dev
 ```
 
 La aplicación estará disponible en `http://localhost:4321`
+
+### Configurar Supabase
+
+Para activar autenticación y almacenamiento en la nube, sigue los pasos de [`SUPABASE_SETUP.md`](./SUPABASE_SETUP.md). El proyecto requiere `PUBLIC_SUPABASE_URL` y `PUBLIC_SUPABASE_ANON_KEY` en un archivo `.env` local y en el entorno de Vercel. Sin esa configuración, el modo invitado sigue disponible, pero las funciones de cuenta no se conectan.
 
 ### Build para producción
 
@@ -113,14 +118,17 @@ cvcreator/
 ## 🛠️ Stack Tecnológico
 
 - **Frontend Framework**: Astro 5.x
+- **Hosting**: Vercel adapter para Astro y rutas dinámicas
 - **UI Components**: React 19.x
 - **Styling**: Tailwind CSS 4.x
+- **Auth y base de datos**: Supabase Auth, Postgres y RLS
 - **Markdown**: Remark + remark-gfm
 - **Exportación**:
   - `docx` – Generación de Word
   - `jspdf` – Generación de PDF
   - `file-saver` – Descarga de archivos
-- **Persistencia**: localStorage
+- **Persistencia invitado**: localStorage
+- **Persistencia de cuentas**: Supabase Postgres
 
 ## 📋 Estructura del Currículum
 
@@ -158,9 +166,6 @@ Todas las validaciones son **informativas, nunca bloqueantes**.
 
 ## 🚫 Fuera del alcance
 
-- Autenticación de usuarios
-- Backend o base de datos
-- Guardado en la nube
 - Diseño visual avanzado
 - Múltiples plantillas prediseñadas
 - Temas o colores personalizados
@@ -176,10 +181,10 @@ Todas las validaciones son **informativas, nunca bloqueantes**.
 
 ## 🔄 Características de persistencia
 
-- Tu currículum se **guarda automáticamente** en localStorage
-- Al recargar la página, tu contenido se **recupera automáticamente**
-- Cada navegador mantiene su propia copia
-- Los datos se eliminan solo si limpias el historial de navegador
+- En **modo invitado**, el currículum se guarda automáticamente en localStorage de ese navegador.
+- En una **cuenta**, los CVs se guardan en Supabase y están disponibles después de iniciar sesión desde otro dispositivo.
+- Si inicias sesión mientras trabajas como invitado, se te ofrece guardar el CV actual en tu cuenta.
+- Los datos de cuenta se aíslan por usuario mediante políticas RLS; consulta [`SUPABASE_SETUP.md`](./SUPABASE_SETUP.md) antes de habilitar el despliegue.
 
 ## 📦 Dependencias principales
 

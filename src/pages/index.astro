@@ -3,7 +3,7 @@ import EditorCV from "../components/EditorCV";
 import PreviewCV from "../components/PreviewCV";
 import ExportButtons from "../components/ExportButtons";
 import ValidationHints from "../components/ValidationHints";
-import ThemeToggle from "../components/ThemeToggle";
+import HeaderAuthControls from "../components/HeaderAuthControls";
 import "../styles/global.css";
 import { Linkedin, Github } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
@@ -74,9 +74,9 @@ import { Badge } from "@/components/ui/badge";
             </div>
           </div>
 
-          {/* RIGHT — Theme Toggle */}
+          {/* RIGHT — Auth + Theme */}
           <div>
-            <ThemeToggle client:load />
+            <HeaderAuthControls client:load />
           </div>
         </div>
 
