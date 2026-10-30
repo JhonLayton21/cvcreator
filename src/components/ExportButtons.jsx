@@ -7,11 +7,12 @@ import { FileDown, FileText, FileType, Download, X } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Field, FieldLabel, FieldContent } from "@/components/ui/field";
 
-export default function ExportButtons() {
+export default function ExportButtons({ content: contentOverride, fileName: initialFileName = "curriculum", compact = false }) {
   const [content, setContent] = useState("");
-  const [fileName, setFileName] = useState("curriculum");
+  const [fileName, setFileName] = useState(initialFileName);
   const [isExporting, setIsExporting] = useState(false);
   const [panelOpen, setPanelOpen] = useState(false);
+  const exportContent = typeof contentOverride === "string" ? contentOverride : content;
 
   useEffect(() => {
     const unsubscribe = resumeStore.subscribe((newContent) => {
@@ -23,7 +24,7 @@ export default function ExportButtons() {
 
   const downloadMarkdown = () => {
     const element = document.createElement("a");
-    const file = new Blob([content], { type: "text/markdown" });
+    const file = new Blob([exportContent], { type: "text/markdown" });
     element.href = URL.createObjectURL(file);
     element.download = `${fileName}.md`;
     document.body.appendChild(element);
@@ -32,14 +33,14 @@ export default function ExportButtons() {
   };
 
   const handleExportDocx = async () => {
-    if (!content.trim()) {
+    if (!exportContent.trim()) {
       alert("Por favor, escribe contenido antes de exportar.");
       return;
     }
 
     setIsExporting(true);
     try {
-      await exportToDocx(content, fileName);
+      await exportToDocx(exportContent, fileName);
     } catch (error) {
       alert("Error al exportar a Word. Por favor, intenta nuevamente.");
       console.error(error);
@@ -49,14 +50,14 @@ export default function ExportButtons() {
   };
 
   const handleExportPdf = async () => {
-    if (!content.trim()) {
+    if (!exportContent.trim()) {
       alert("Por favor, escribe contenido antes de exportar.");
       return;
     }
 
     setIsExporting(true);
     try {
-      await exportToPdf(content, fileName);
+      await exportToPdf(exportContent, fileName);
     } catch (error) {
       alert("Error al exportar a PDF. Por favor, intenta nuevamente.");
       console.error(error);
@@ -106,21 +107,18 @@ export default function ExportButtons() {
 
   return (
     <>
-      {/* Botón flotante SIEMPRE visible */}
       <button
         type="button"
         onClick={() => setPanelOpen(true)}
-        className="fixed bottom-6 right-6 z-50
-                   w-14 h-14 rounded-full
-                   bg-black text-white
-                   flex items-center justify-center
-                   shadow-lg hover:scale-105 transition"
+        className={compact
+          ? "inline-flex h-8 items-center gap-1.5 rounded-sm bg-slate-950 px-2.5 text-xs font-medium text-white transition hover:bg-slate-800 dark:bg-white dark:text-slate-950 dark:hover:bg-slate-200"
+          : "fixed bottom-6 right-6 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-black text-white shadow-lg transition hover:scale-105"}
         aria-label="Exportar archivo"
       >
-        <Download className="h-6 w-6" />
+        <Download className={compact ? "h-3.5 w-3.5" : "h-6 w-6"} />
+        {compact && <span>Exportar</span>}
       </button>
 
-      {/* Overlay + modal */}
       {panelOpen && (
         <div
           className="fixed inset-0 bg-black/50 z-50 flex items-end lg:items-center justify-center"

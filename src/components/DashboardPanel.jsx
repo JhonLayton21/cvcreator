@@ -1,11 +1,8 @@
 import { useEffect, useMemo, useState } from 'react';
 import {
-  AtSign,
   Copy,
   FileText,
   Grid3X3,
-  Heart,
-  Link2,
   List,
   MoreHorizontal,
   Pencil,
@@ -14,7 +11,7 @@ import {
   Trash2,
 } from 'lucide-react';
 import { Button } from './ui/button';
-import HeaderAuthControls from './HeaderAuthControls';
+import AppHeader from './AppHeader';
 import { DEFAULT_CONTENT } from '../utils/resumeStore';
 import {
   createCv,
@@ -194,51 +191,7 @@ export default function DashboardPanel() {
 
   return (
     <div className="min-h-screen bg-[#fafafa] text-slate-900 dark:bg-slate-950 dark:text-slate-100">
-      <header className="border-b border-slate-200 bg-white dark:border-slate-800 dark:bg-slate-900">
-        <div className="mx-auto grid min-h-16 max-w-[1440px] grid-cols-[1fr_auto] items-center gap-x-4 px-5 py-3 md:grid-cols-[1fr_auto_1fr]">
-          <a href="/" className="flex w-fit items-center gap-3" aria-label="CV Creator, inicio">
-            <span className="flex h-9 w-9 items-center justify-center border border-slate-900 text-sm font-semibold tracking-tight dark:border-slate-100">
-              CV
-            </span>
-            <span className="text-xs font-semibold uppercase tracking-[0.22em]">CV Creator</span>
-          </a>
-
-          <div className="hidden items-center gap-2 text-xs text-slate-500 dark:text-slate-400 md:flex">
-            <span>Hecho con</span>
-            <Heart className="h-3.5 w-3.5" aria-label="amor" />
-            <span>por</span>
-            <a
-              href="/HdV_actual_JBLR.pdf"
-              download="Jhon-Brandon-Layton-Rodriguez-CV-Software-Engineer.pdf"
-              className="font-medium text-slate-900 hover:underline dark:text-slate-100"
-            >
-              Jhon Brandon Layton Rodriguez
-            </a>
-            <a
-              href="https://www.linkedin.com/in/jhon-layton/"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="LinkedIn"
-              className="ml-1 hover:text-slate-900 dark:hover:text-white"
-            >
-              <AtSign className="h-4 w-4" />
-            </a>
-            <a
-              href="https://github.com/JhonLayton21/cvcreator"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="GitHub"
-              className="hover:text-slate-900 dark:hover:text-white"
-            >
-              <Link2 className="h-4 w-4" />
-            </a>
-          </div>
-
-          <div className="flex justify-self-end">
-            <HeaderAuthControls />
-          </div>
-        </div>
-      </header>
+      <AppHeader />
 
       <main className="mx-auto max-w-[1110px] px-5 pb-12 pt-10 sm:px-6 lg:pt-[54px]">
         <section className="flex flex-col justify-between gap-6 border border-slate-200 bg-white p-5 dark:border-slate-800 dark:bg-slate-900 sm:p-6 lg:min-h-[133px] lg:flex-row lg:items-end">

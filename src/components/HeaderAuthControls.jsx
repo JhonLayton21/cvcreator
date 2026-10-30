@@ -77,24 +77,27 @@ export default function HeaderAuthControls() {
             aria-label="Iniciar sesión para guardar CVs en la nube"
             disabled={!authLoaded}
             title={!authLoaded ? 'Comprobando sesión...' : undefined}
-            className="inline-flex items-center justify-center rounded-full border border-blue-500 bg-gradient-to-r from-blue-600 to-indigo-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+            className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white py-1 pl-1 pr-3 text-xs font-medium text-slate-700 transition hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400 focus-visible:ring-offset-2 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100 dark:hover:bg-slate-800"
           >
-            <span className="hidden sm:inline">Guarda tus CVs en la nube — Iniciar sesión</span>
-            <span className="sm:hidden">Iniciar sesión</span>
+            <span className="flex h-6 w-6 items-center justify-center rounded-full bg-slate-950 text-[10px] font-semibold text-white dark:bg-white dark:text-slate-950">
+              I
+            </span>
+            Invitado
+            <ChevronDown className="h-3.5 w-3.5" />
           </button>
         ) : (
           <div className="relative">
             <button
               type="button"
               onClick={() => setMenuOpen((current) => !current)}
-              className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-2.5 py-1.5 text-sm font-medium text-slate-700 shadow-sm transition hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100 dark:hover:bg-slate-800"
+              className="inline-flex max-w-[190px] items-center gap-2 rounded-full border border-slate-200 bg-white py-1 pl-1 pr-2.5 text-xs font-medium text-slate-700 transition hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100 dark:hover:bg-slate-800"
               aria-label={`Abrir menú del usuario ${user.name}`}
             >
-              <span className="flex h-7 w-7 items-center justify-center rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 text-xs font-bold text-white">
+              <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-slate-950 text-[10px] font-semibold text-white dark:bg-white dark:text-slate-950">
                 {user.name?.slice(0, 1)?.toUpperCase() || 'U'}
               </span>
-              <span className="hidden sm:block">{user.name || user.email}</span>
-              <ChevronDown className="h-4 w-4" />
+              <span className="truncate">{user.name || user.email}</span>
+              <ChevronDown className="h-3.5 w-3.5 shrink-0" />
             </button>
 
             {menuOpen && (

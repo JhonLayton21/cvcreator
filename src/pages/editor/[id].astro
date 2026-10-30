@@ -8,8 +8,18 @@ const { id } = Astro.params;
 <html lang="es">
   <head>
     <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
     <title>Editor de CV | CV Creator</title>
+
+    <script is:inline>
+      (function () {
+        const stored = localStorage.getItem("cvcreator-theme");
+        if (stored === "dark") document.documentElement.classList.add("dark");
+        else document.documentElement.classList.remove("dark");
+      })();
+    </script>
   </head>
   <body>
     <CvWorkspace client:load cvId={id} />
