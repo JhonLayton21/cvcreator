@@ -22,17 +22,17 @@ La columna `content` es JSONB y almacena el Markdown que usa el editor. Las pol�
 
 1. Abre **Project Settings** → **API** (en algunas versiones, **API Keys**).
 2. Copia la **Project URL**.
-3. Copia la clave pública `anon`/`public` o `publishable` del proyecto.
+3. Copia la clave `publishable` del proyecto (formato `sb_publishable_...`).
 4. En la raíz del proyecto, copia `.env.example` a `.env` y sustituye los valores:
 
 ```env
 PUBLIC_SUPABASE_URL=https://tu-project-ref.supabase.co
-PUBLIC_SUPABASE_ANON_KEY=tu-clave-publica
+PUBLIC_SUPABASE_PUBLISHABLE_KEY=sb_publishable_tu_clave
 ```
 
-La clave pública se entrega al navegador y es segura para este uso porque la base está protegida por RLS. **Nunca** pongas `service_role`, una secret key ni la contraseña de la base en variables `PUBLIC_*`, en el código del cliente o en Git. La app no requiere ninguna clave de servicio.
+La clave `publishable` se entrega al navegador y es segura para este uso porque la base está protegida por RLS. **Nunca** pongas `service_role`, una secret key (por ejemplo `sb_secret_...`) ni la contraseña de la base en variables `PUBLIC_*`, en el código del cliente o en Git. La app no requiere ninguna clave secreta.
 
-`.env` está excluido de Git. Para desplegar, configura estas mismas dos variables en **Vercel → Project → Settings → Environment Variables** para Production, Preview y Development según corresponda. Los valores deben estar presentes durante el build; después de añadirlos o cambiarlos, vuelve a desplegar.
+`.env` está excluido de Git. Para desplegar, configura estas mismas dos variables en **Vercel → Project → Settings → Environment Variables** para Production, Preview y Development según corresponda. Los valores deben estar presentes durante el build; después de añadirlos o cambiarlos, vuelve a desplegar. Si tu `.env` ya tiene la variable antigua `PUBLIC_SUPABASE_ANON_KEY`, cambia solo su nombre a `PUBLIC_SUPABASE_PUBLISHABLE_KEY` y sustituye su valor por la clave `publishable` actual de Supabase.
 
 ## 4. Configurar correo y contraseñas
 
@@ -77,10 +77,19 @@ El editor usa la ruta dinámica `/editor/[id]`; por eso el proyecto configura el
 
 1. En Vercel, importa el repositorio y deja **Build Command** como `npm run build`.
 2. Usa la versión Node 20.x o posterior compatible con Astro 5.
-3. Añade `PUBLIC_SUPABASE_URL` y `PUBLIC_SUPABASE_ANON_KEY` en Environment Variables.
+3. Añade `PUBLIC_SUPABASE_URL` y `PUBLIC_SUPABASE_PUBLISHABLE_KEY` en Environment Variables.
 4. Despliega y prueba las URLs `/`, `/login`, `/dashboard`, `/editor/<id>` y `/auth/callback`.
 
 No agregues un `vercel.json` con rewrites genéricos para `/editor`; el adaptador genera los handlers para las rutas dinámicas.
+
+### Si todavía aparece el error de `PUBLIC_SUPABASE_ANON_KEY`
+
+Ese mensaje pertenece a una versión anterior del cliente; el código actual requiere `PUBLIC_SUPABASE_PUBLISHABLE_KEY`. Cambiar las variables de Vercel no actualiza el código que ya está publicado. Para resolverlo:
+
+1. Confirma los cambios locales que incluyen `src/lib/supabase/client.js` y súbelos (commit y push) a la rama conectada al proyecto Vercel.
+2. En **Vercel → Deployments**, comprueba que el último despliegue usa ese commit y la rama correcta. Si es un Preview, configura las variables también para **Preview**; para el sitio público, deben estar en **Production**.
+3. Vuelve a desplegar ese commit para que Vite incorpore las variables `PUBLIC_*` al bundle del navegador.
+4. Recarga el sitio evitando caché (Ctrl+Shift+R o Cmd+Shift+R). El error de configuración actual debe mencionar `PUBLIC_SUPABASE_PUBLISHABLE_KEY`, nunca `PUBLIC_SUPABASE_ANON_KEY`.
 
 ## 8. Comprobaciones antes de publicar
 

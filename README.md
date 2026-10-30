@@ -80,7 +80,7 @@ La aplicación estará disponible en `http://localhost:4321`
 
 ### Configurar Supabase
 
-Para activar autenticación y almacenamiento en la nube, sigue los pasos de [`SUPABASE_SETUP.md`](./SUPABASE_SETUP.md). El proyecto requiere `PUBLIC_SUPABASE_URL` y `PUBLIC_SUPABASE_ANON_KEY` en un archivo `.env` local y en el entorno de Vercel. Sin esa configuración, el modo invitado sigue disponible, pero las funciones de cuenta no se conectan.
+Para activar autenticación y almacenamiento en la nube, sigue los pasos de [`SUPABASE_SETUP.md`](./SUPABASE_SETUP.md). El proyecto requiere `PUBLIC_SUPABASE_URL` y `PUBLIC_SUPABASE_PUBLISHABLE_KEY` en un archivo `.env` local y en el entorno de Vercel. Sin esa configuración, el modo invitado sigue disponible, pero las funciones de cuenta no se conectan.
 
 ### Build para producción
 

@@ -179,7 +179,7 @@ Sugerencia de módulos (adaptar a la estructura real):
 
 ```
 NEXT_PUBLIC_SUPABASE_URL=...
-NEXT_PUBLIC_SUPABASE_ANON_KEY=...
+NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=...
 ```
 
 - **Nunca** exponer la `service_role` key en el cliente.
@@ -229,4 +229,3 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=...
 - Maneja todos los errores de Supabase y muestra mensajes claros al usuario.
 - Si algo de esta especificación choca con la estructura real del proyecto, propón la alternativa antes de implementar.
 - Entrega al final: SQL ejecutable, lista de variables de entorno y pasos de prueba manual.
-

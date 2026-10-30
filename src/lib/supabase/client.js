@@ -8,15 +8,15 @@ export function getSupabaseClient() {
   }
 
   const url = import.meta.env.PUBLIC_SUPABASE_URL;
-  const anonKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
+  const publishableKey = import.meta.env.PUBLIC_SUPABASE_PUBLISHABLE_KEY;
 
-  if (!url || !anonKey) {
+  if (!url || !publishableKey) {
     throw new Error(
-      'Falta configurar PUBLIC_SUPABASE_URL y PUBLIC_SUPABASE_ANON_KEY. Consulta SUPABASE_SETUP.md.',
+      'Falta configurar PUBLIC_SUPABASE_URL y PUBLIC_SUPABASE_PUBLISHABLE_KEY. Consulta SUPABASE_SETUP.md.',
     );
   }
 
-  supabase = createClient(url, anonKey, {
+  supabase = createClient(url, publishableKey, {
     auth: {
       autoRefreshToken: true,
       detectSessionInUrl: true,
