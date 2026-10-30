@@ -1,15 +1,20 @@
 import { useEffect, useMemo, useState } from 'react';
 import {
+  AtSign,
   Copy,
+  FileText,
   Grid3X3,
+  Heart,
+  Link2,
   List,
+  MoreHorizontal,
   Pencil,
   Plus,
   Search,
   Trash2,
-  ArrowUpRight,
 } from 'lucide-react';
 import { Button } from './ui/button';
+import HeaderAuthControls from './HeaderAuthControls';
 import { DEFAULT_CONTENT } from '../utils/resumeStore';
 import {
   createCv,
@@ -32,14 +37,27 @@ function formatDate(dateString) {
   });
 }
 
-function getPreviewText(content) {
-  return (content || DEFAULT_CONTENT)
-    .replace(/[#>*_~`]/g, '')
+function getPreviewContent(content) {
+  const lines = (content || DEFAULT_CONTENT)
     .split('\n')
-    .filter(Boolean)
-    .slice(0, 4)
-    .join(' ')
-    .slice(0, 140);
+    .map((line) => line.trim())
+    .filter((line) => line && line !== '---');
+  const nameIndex = lines.findIndex((line) => /^#\s+/.test(line));
+  const name = nameIndex >= 0 ? lines[nameIndex].replace(/^#\s+/, '') : 'NOMBRE COMPLETO';
+  const contact = lines
+    .slice(nameIndex + 1)
+    .filter((line) => !/^#{1,6}\s/.test(line))
+    .slice(0, 2)
+    .join(' · ');
+  const profileIndex = lines.findIndex((line) => /^##\s+perfil profesional/i.test(line));
+  const sectionIndex = profileIndex >= 0
+    ? profileIndex
+    : lines.findIndex((line) => /^##\s+/.test(line));
+  const sectionTitle = sectionIndex >= 0
+    ? lines[sectionIndex].replace(/^##\s+/, '')
+    : 'PERFIL PROFESIONAL';
+
+  return { name, contact, sectionTitle };
 }
 
 export default function DashboardPanel() {
@@ -49,6 +67,7 @@ export default function DashboardPanel() {
   const [search, setSearch] = useState('');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [openMenuId, setOpenMenuId] = useState(null);
 
   const refresh = async () => {
     setError('');
@@ -174,34 +193,86 @@ export default function DashboardPanel() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 px-4 py-8 text-slate-900 dark:bg-slate-950 dark:text-slate-100">
-      <div className="mx-auto max-w-7xl">
-        <header className="mb-6 flex flex-col gap-4 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm dark:border-slate-800 dark:bg-slate-900 md:flex-row md:items-center md:justify-between">
-          <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-blue-600 dark:text-blue-400">
-              Mis CVs
-            </p>
-            <h1 className="mt-1 text-2xl font-bold">Panel de documentos</h1>
+    <div className="min-h-screen bg-[#fafafa] text-slate-900 dark:bg-slate-950 dark:text-slate-100">
+      <header className="border-b border-slate-200 bg-white dark:border-slate-800 dark:bg-slate-900">
+        <div className="mx-auto grid min-h-16 max-w-[1440px] grid-cols-[1fr_auto] items-center gap-x-4 px-5 py-3 md:grid-cols-[1fr_auto_1fr]">
+          <a href="/" className="flex w-fit items-center gap-3" aria-label="CV Creator, inicio">
+            <span className="flex h-9 w-9 items-center justify-center border border-slate-900 text-sm font-semibold tracking-tight dark:border-slate-100">
+              CV
+            </span>
+            <span className="text-xs font-semibold uppercase tracking-[0.22em]">CV Creator</span>
+          </a>
+
+          <div className="hidden items-center gap-2 text-xs text-slate-500 dark:text-slate-400 md:flex">
+            <span>Hecho con</span>
+            <Heart className="h-3.5 w-3.5" aria-label="amor" />
+            <span>por</span>
+            <a
+              href="/HdV_actual_JBLR.pdf"
+              download="Jhon-Brandon-Layton-Rodriguez-CV-Software-Engineer.pdf"
+              className="font-medium text-slate-900 hover:underline dark:text-slate-100"
+            >
+              Jhon Brandon Layton Rodriguez
+            </a>
+            <a
+              href="https://www.linkedin.com/in/jhon-layton/"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="LinkedIn"
+              className="ml-1 hover:text-slate-900 dark:hover:text-white"
+            >
+              <AtSign className="h-4 w-4" />
+            </a>
+            <a
+              href="https://github.com/JhonLayton21/cvcreator"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="GitHub"
+              className="hover:text-slate-900 dark:hover:text-white"
+            >
+              <Link2 className="h-4 w-4" />
+            </a>
           </div>
 
-          <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
-            <div className="relative">
-              <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+          <div className="flex justify-self-end">
+            <HeaderAuthControls />
+          </div>
+        </div>
+      </header>
+
+      <main className="mx-auto max-w-[1110px] px-5 pb-12 pt-10 sm:px-6 lg:pt-[54px]">
+        <section className="flex flex-col justify-between gap-6 border border-slate-200 bg-white p-5 dark:border-slate-800 dark:bg-slate-900 sm:p-6 lg:min-h-[133px] lg:flex-row lg:items-end">
+          <div>
+            <p className="text-[10px] font-medium uppercase tracking-[0.24em] text-slate-500 dark:text-slate-400">
+              Mis CVs
+            </p>
+            <h1 className="mt-2 text-[28px] font-semibold leading-tight tracking-tight">
+              Panel de documentos
+            </h1>
+            <p className="mt-2 text-sm text-slate-500 dark:text-slate-400">
+              Organiza y continúa trabajando en tus currículums.
+            </p>
+          </div>
+
+          <div className="flex flex-col gap-2.5 sm:flex-row sm:items-center">
+            <label className="relative block">
+              <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-500" />
               <input
                 value={search}
                 onChange={(event) => setSearch(event.target.value)}
                 placeholder="Buscar por título"
-                className="w-full rounded-full border border-slate-300 bg-slate-50 py-2 pl-9 pr-3 text-sm text-slate-800 outline-none transition focus:border-blue-500 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100 sm:w-64"
+                className="h-10 w-full border border-slate-200 bg-[#fafafa] pl-9 pr-3 text-sm text-slate-800 outline-none transition focus:border-slate-400 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100 sm:w-[234px]"
                 aria-label="Buscar CV por título"
               />
-            </div>
+            </label>
 
-            <div className="flex items-center gap-2 rounded-full border border-slate-200 bg-slate-50 p-1 dark:border-slate-700 dark:bg-slate-950">
+            <div className="flex h-10 items-center border border-slate-200 dark:border-slate-700">
               <button
                 type="button"
                 onClick={() => toggleView('grid')}
                 aria-label="Ver cuadrícula"
-                className={`rounded-full p-2 transition ${view === 'grid' ? 'bg-blue-600 text-white' : 'text-slate-600 dark:text-slate-300'}`}
+                aria-pressed={view === 'grid'}
+                className={`flex h-full w-9 items-center justify-center transition ${view === 'grid' ? 'bg-slate-100 text-slate-900 dark:bg-slate-800 dark:text-white' : 'text-slate-500 hover:bg-slate-50 dark:text-slate-300 dark:hover:bg-slate-800'}`}
               >
                 <Grid3X3 className="h-4 w-4" />
               </button>
@@ -209,98 +280,142 @@ export default function DashboardPanel() {
                 type="button"
                 onClick={() => toggleView('list')}
                 aria-label="Ver lista"
-                className={`rounded-full p-2 transition ${view === 'list' ? 'bg-blue-600 text-white' : 'text-slate-600 dark:text-slate-300'}`}
+                aria-pressed={view === 'list'}
+                className={`flex h-full w-9 items-center justify-center border-l border-slate-200 transition dark:border-slate-700 ${view === 'list' ? 'bg-slate-100 text-slate-900 dark:bg-slate-800 dark:text-white' : 'text-slate-500 hover:bg-slate-50 dark:text-slate-300 dark:hover:bg-slate-800'}`}
               >
                 <List className="h-4 w-4" />
               </button>
             </div>
 
-            <Button onClick={handleCreateNew} className="bg-blue-600 text-white hover:bg-blue-700">
+            <Button onClick={handleCreateNew} className="h-10 rounded-sm bg-slate-950 px-3 text-white hover:bg-slate-800 dark:bg-white dark:text-slate-950 dark:hover:bg-slate-200">
               <Plus className="h-4 w-4" />
               Nuevo CV
             </Button>
           </div>
-        </header>
+        </section>
 
         {error && (
-          <div role="alert" className="mb-4 rounded-xl border border-red-300 bg-red-50 px-4 py-3 text-sm text-red-800 dark:border-red-900 dark:bg-red-950/40 dark:text-red-200">
+          <div role="alert" className="mt-4 border border-red-300 bg-red-50 px-4 py-3 text-sm text-red-800 dark:border-red-900 dark:bg-red-950/40 dark:text-red-200">
             {error}
           </div>
         )}
 
+        <p className="mb-4 mt-5 text-xs text-slate-600 dark:text-slate-400">
+          {items.length} {items.length === 1 ? 'documento' : 'documentos'} en esta sesión
+        </p>
+
         {loading ? (
-          <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-            {Array.from({ length: 6 }).map((_, index) => (
-              <div key={index} className="h-56 animate-pulse rounded-2xl border border-slate-200 bg-white dark:border-slate-800 dark:bg-slate-900" />
+          <div className={view === 'grid' ? 'grid grid-cols-1 gap-4 sm:grid-cols-[repeat(auto-fill,minmax(320px,524px))]' : 'space-y-3'}>
+            {Array.from({ length: 3 }).map((_, index) => (
+              <div key={index} className="h-[390px] animate-pulse border border-slate-200 bg-white dark:border-slate-800 dark:bg-slate-900" />
             ))}
           </div>
         ) : filteredItems.length === 0 ? (
-          <div className="rounded-2xl border border-dashed border-slate-300 bg-white p-12 text-center shadow-sm dark:border-slate-700 dark:bg-slate-900">
+          <div className="border border-dashed border-slate-300 bg-white p-12 text-center dark:border-slate-700 dark:bg-slate-900">
             <p className="text-lg font-semibold">Todavía no tienes CVs guardados</p>
             <p className="mt-2 text-sm text-slate-500 dark:text-slate-400">
               Crea tu primer documento para empezar a guardar tu historial profesional en la nube.
             </p>
-            <Button onClick={handleCreateNew} className="mt-6 bg-blue-600 text-white hover:bg-blue-700">
+            <Button onClick={handleCreateNew} className="mt-6 rounded-sm bg-slate-950 text-white hover:bg-slate-800 dark:bg-white dark:text-slate-950 dark:hover:bg-slate-200">
               <Plus className="h-4 w-4" />
               Crear mi primer CV
             </Button>
           </div>
         ) : view === 'grid' ? (
-          <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-            {filteredItems.map((cv) => (
-              <article key={cv.id} className="group rounded-2xl border border-slate-200 bg-white p-3 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md dark:border-slate-800 dark:bg-slate-900">
-                <button
-                  type="button"
-                  onClick={() => {
-                    if (typeof window !== 'undefined') {
-                      window.location.href = `/editor/${cv.id}`;
-                    }
-                  }}
-                  className="block w-full text-left"
-                >
-                  <div className="mb-3 rounded-xl border border-slate-200 bg-slate-50 p-3 text-sm text-slate-700 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-200">
-                    <div className="mb-2 flex items-center justify-between text-[10px] uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400">
-                      <span>{cv.template || 'default'}</span>
-                      <ArrowUpRight className="h-3.5 w-3.5" />
-                    </div>
-                    <p className="line-clamp-4 min-h-[92px]">{getPreviewText(cv.content)}</p>
-                  </div>
-                </button>
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-[repeat(auto-fill,minmax(320px,524px))]">
+            {filteredItems.map((cv) => {
+              const preview = getPreviewContent(cv.content);
 
-                <div className="space-y-2">
-                  <div className="flex items-start justify-between gap-3">
-                    <div>
-                      <h2 className="font-semibold leading-tight">{cv.title}</h2>
-                      <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">
-                        Última edición: {formatDate(cv.updatedAt)}
+              return (
+                <article key={cv.id} className="relative bg-white dark:bg-slate-900">
+                  <div className="flex h-16 items-center justify-between border-b border-slate-200 px-4 dark:border-slate-800">
+                    <div className="flex items-center gap-3">
+                      <span className="border border-slate-200 px-2 py-1 text-[9px] uppercase tracking-[0.16em] text-slate-500 dark:border-slate-700 dark:text-slate-400">
+                        {cv.template || 'default'}
+                      </span>
+                      <span className="text-[10px] text-slate-500 dark:text-slate-400">
+                        Actualizado {formatDate(cv.updatedAt)}
+                      </span>
+                    </div>
+                    <div className="relative">
+                      <button
+                        type="button"
+                        onClick={() => setOpenMenuId(openMenuId === cv.id ? null : cv.id)}
+                        aria-label={`Acciones para ${cv.title}`}
+                        aria-expanded={openMenuId === cv.id}
+                        className="flex h-8 w-8 items-center justify-center text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800"
+                      >
+                        <MoreHorizontal className="h-4 w-4" />
+                      </button>
+                      {openMenuId === cv.id && (
+                        <div className="absolute right-0 z-10 mt-1 w-40 border border-slate-200 bg-white p-1 shadow-lg dark:border-slate-700 dark:bg-slate-900">
+                          <button type="button" onClick={() => { setOpenMenuId(null); handleRename(cv); }} className="flex w-full items-center gap-2 px-3 py-2 text-left text-sm hover:bg-slate-100 dark:hover:bg-slate-800">
+                            <Pencil className="h-3.5 w-3.5" /> Renombrar
+                          </button>
+                          <button type="button" onClick={() => { setOpenMenuId(null); handleDuplicate(cv); }} className="flex w-full items-center gap-2 px-3 py-2 text-left text-sm hover:bg-slate-100 dark:hover:bg-slate-800">
+                            <Copy className="h-3.5 w-3.5" /> Duplicar
+                          </button>
+                          <button type="button" onClick={() => { setOpenMenuId(null); handleDelete(cv); }} className="flex w-full items-center gap-2 px-3 py-2 text-left text-sm text-red-600 hover:bg-red-50 dark:text-red-400 dark:hover:bg-red-950/40">
+                            <Trash2 className="h-3.5 w-3.5" /> Eliminar
+                          </button>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={() => { window.location.href = `/editor/${cv.id}`; }}
+                    aria-label={`Abrir ${cv.title}`}
+                    className="mx-4 mt-6 block w-[calc(100%-2rem)] border border-slate-200 bg-[#fafafa] p-4 text-left transition hover:border-slate-300 dark:border-slate-700 dark:bg-slate-950 dark:hover:border-slate-600"
+                  >
+                    <div className="min-h-[128px] border border-slate-200 bg-white px-4 py-3 text-slate-900 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100">
+                      <p className="truncate text-[10px] font-bold uppercase tracking-[0.08em]">
+                        {preview.name}
                       </p>
+                      {preview.contact && (
+                        <p className="mt-1 truncate text-[8px] text-slate-500 dark:text-slate-400">
+                          {preview.contact}
+                        </p>
+                      )}
+                      <div className="my-3 border-t border-slate-200 dark:border-slate-700" />
+                      <p className="truncate text-[9px] font-medium uppercase tracking-[0.04em]">
+                        {preview.sectionTitle}
+                      </p>
+                      <div className="mt-2 space-y-1.5" aria-hidden="true">
+                        <div className="h-1 w-full bg-slate-100 dark:bg-slate-800" />
+                        <div className="h-1 w-[92%] bg-slate-100 dark:bg-slate-800" />
+                        <div className="h-1 w-[78%] bg-slate-100 dark:bg-slate-800" />
+                      </div>
                     </div>
+                  </button>
+
+                  <div className="px-4 pb-4 pt-4">
+                    <h2 className="truncate text-base font-medium">{cv.title}</h2>
+                    <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">
+                      Última edición: {formatDate(cv.updatedAt)}
+                    </p>
                   </div>
 
-                  <div className="flex flex-wrap gap-2">
-                    <Button variant="outline" size="sm" onClick={() => { if (typeof window !== 'undefined') window.location.href = `/editor/${cv.id}`; }}>
-                      Abrir
-                    </Button>
-                    <Button variant="ghost" size="sm" onClick={() => handleRename(cv)}>
-                      <Pencil className="h-3.5 w-3.5" />
-                      Renombrar
-                    </Button>
-                    <Button variant="ghost" size="sm" onClick={() => handleDuplicate(cv)}>
-                      <Copy className="h-3.5 w-3.5" />
-                      Duplicar
-                    </Button>
-                    <Button variant="ghost" size="sm" className="text-red-600 hover:text-red-700 dark:text-red-400" onClick={() => handleDelete(cv)}>
-                      <Trash2 className="h-3.5 w-3.5" />
-                      Eliminar
-                    </Button>
+                  <div className="flex items-center justify-between border-t border-slate-200 px-4 py-3 dark:border-slate-800">
+                    <span className="text-[10px] uppercase tracking-[0.18em] text-slate-500 dark:text-slate-400">
+                      Plantilla {cv.template || 'default'}
+                    </span>
+                    <button
+                      type="button"
+                      onClick={() => { window.location.href = `/editor/${cv.id}`; }}
+                      className="flex items-center gap-1.5 text-sm font-medium hover:underline"
+                    >
+                      Abrir CV <FileText className="h-4 w-4" />
+                    </button>
                   </div>
-                </div>
-              </article>
-            ))}
+                </article>
+              );
+            })}
           </div>
         ) : (
-          <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm dark:border-slate-800 dark:bg-slate-900">
-            <div className="hidden grid-cols-[2fr_1.2fr_1fr_1.2fr_1.6fr] gap-3 border-b border-slate-200 px-4 py-3 text-xs font-semibold uppercase tracking-[0.18em] text-slate-500 dark:border-slate-800 dark:text-slate-400 md:grid">
+          <div className="overflow-x-auto border border-slate-200 bg-white dark:border-slate-800 dark:bg-slate-900">
+            <div className="hidden min-w-[760px] grid-cols-[2fr_1.2fr_1fr_1.2fr_1.6fr] gap-3 border-b border-slate-200 px-4 py-3 text-xs font-semibold uppercase tracking-[0.18em] text-slate-500 dark:border-slate-800 dark:text-slate-400 md:grid">
               <span>Título</span>
               <span>Plantilla</span>
               <span>Creación</span>
@@ -309,15 +424,11 @@ export default function DashboardPanel() {
             </div>
 
             {filteredItems.map((cv) => (
-              <div key={cv.id} className="grid gap-3 border-b border-slate-200 px-4 py-4 last:border-b-0 dark:border-slate-800 md:grid-cols-[2fr_1.2fr_1fr_1.2fr_1.6fr] md:items-center">
+              <div key={cv.id} className="grid min-w-[760px] gap-3 border-b border-slate-200 px-4 py-4 last:border-b-0 dark:border-slate-800 md:grid-cols-[2fr_1.2fr_1fr_1.2fr_1.6fr] md:items-center">
                 <button
                   type="button"
-                  onClick={() => {
-                    if (typeof window !== 'undefined') {
-                      window.location.href = `/editor/${cv.id}`;
-                    }
-                  }}
-                  className="text-left font-medium text-slate-900 hover:text-blue-600 dark:text-slate-100 dark:hover:text-blue-400"
+                  onClick={() => { window.location.href = `/editor/${cv.id}`; }}
+                  className="text-left font-medium hover:underline"
                 >
                   {cv.title}
                 </button>
@@ -325,7 +436,7 @@ export default function DashboardPanel() {
                 <span className="text-sm text-slate-600 dark:text-slate-300">{formatDate(cv.createdAt)}</span>
                 <span className="text-sm text-slate-600 dark:text-slate-300">{formatDate(cv.updatedAt)}</span>
                 <div className="flex flex-wrap gap-2">
-                  <Button variant="outline" size="sm" onClick={() => { if (typeof window !== 'undefined') window.location.href = `/editor/${cv.id}`; }}>
+                  <Button variant="outline" size="sm" onClick={() => { window.location.href = `/editor/${cv.id}`; }}>
                     Abrir
                   </Button>
                   <Button variant="ghost" size="sm" onClick={() => handleRename(cv)}>Renombrar</Button>
@@ -336,7 +447,7 @@ export default function DashboardPanel() {
             ))}
           </div>
         )}
-      </div>
+      </main>
     </div>
   );
 }
