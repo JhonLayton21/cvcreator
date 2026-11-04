@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { resumeStore } from '../utils/resumeStore';
 import { remark } from 'remark';
 import html from 'remark-html';
+import ExportButtons from './ExportButtons';
 
 export default function PreviewCV() {
     const [markdown, setMarkdown] = useState('');
@@ -33,14 +34,19 @@ export default function PreviewCV() {
 
     return (
         <div className="h-full min-h-0 flex flex-col font-sans">
-            <div className="mb-4">
-                <h2 className="text-xl font-bold text-gray-800 dark:text-foreground">Vista Previa</h2>
-                <p className="text-sm text-gray-500 dark:text-muted-foreground">Documento final.</p>
+            <div className="mb-2 flex items-center justify-between gap-3">
+                <div>
+                    <h2 className="text-sm font-semibold text-slate-900 dark:text-foreground">Vista previa</h2>
+                    <p className="text-xs text-slate-500 dark:text-muted-foreground">Documento final · plantilla default</p>
+                </div>
+                <div className="flex shrink-0 items-center gap-2">
+                    <span className="hidden text-[10px] uppercase tracking-[0.12em] text-slate-500 sm:inline">A4 · ATS friendly</span>
+                    <ExportButtons compact content={markdown} />
+                </div>
             </div>
 
-            {/* Contenedor de la vista previa con estilos definidos en global.css (.prose) */}
             <div
-                className="flex-1 min-h-0 w-full bg-white dark:bg-card p-8 border border-gray-300 dark:border-border shadow-sm rounded-md overflow-y-auto prose max-w-none transition-colors duration-300"
+                className="prose flex-1 min-h-[50vh] w-full max-w-none overflow-y-auto border border-slate-200 bg-white p-7 shadow-none transition-colors duration-300 dark:border-slate-700 dark:bg-slate-950 sm:p-8 lg:min-h-0"
                 dangerouslySetInnerHTML={{ __html: htmlContent }}
             />
         </div>

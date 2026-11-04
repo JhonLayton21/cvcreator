@@ -108,28 +108,33 @@ export default function EditorCV() {
 
     return (
         <div className="h-full min-h-0 flex flex-col font-sans">
-            <div className="mb-4 flex justify-between items-start">
+            <div className="mb-2 flex items-center justify-between gap-3">
                 <div>
-                    <h2 className="text-xl font-bold text-gray-800 dark:text-foreground">Editor CV</h2>
-                    <p className="text-sm text-gray-500 dark:text-muted-foreground">Edita tu información en Markdown.</p>
+                    <h2 className="text-sm font-semibold text-slate-900 dark:text-foreground">Editor CV</h2>
+                    <p className="text-xs text-slate-500 dark:text-muted-foreground">Edita tu información en Markdown.</p>
                 </div>
                 <Button
                     onClick={handleResetTemplate}
                     variant="outline"
                     size="xs"
                     title="Reestablecer a la plantilla por defecto"
-                    className="cursor-pointer"
+                    className="h-7 cursor-pointer rounded-sm border-slate-200 px-2 text-[10px] dark:border-slate-700"
                 >
-                    <RotateCcw className="h-4 w-4 text-neutral-700 dark:text-foreground" />
-                    <span className="text-neutral-700 dark:text-foreground">Reestablecer</span>
+                    <RotateCcw className="h-3 w-3 text-neutral-700 dark:text-foreground" />
+                    <span className="text-neutral-700 dark:text-foreground">Restablecer</span>
                 </Button>
             </div>
+            <div className="flex h-7 items-center justify-between border border-b-0 border-slate-200 bg-white px-2.5 text-[8px] uppercase tracking-[0.12em] text-slate-500 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-400">
+                <span>Markdown</span>
+                <span>Autoguardado en esta sesión</span>
+            </div>
             <textarea
-                className="flex-1 min-h-0 w-full p-4 border border-gray-300 dark:border-input rounded-md resize-none focus:outline-none focus:ring-2 focus:ring-gray-400 dark:focus:ring-ring font-mono text-sm leading-relaxed bg-background text-foreground transition-colors duration-300"
+                className="min-h-[50vh] flex-1 w-full resize-none border border-slate-200 bg-white p-3 font-mono text-[11px] leading-relaxed text-slate-900 outline-none focus:border-slate-400 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100 sm:p-4 lg:min-h-0"
                 value={content}
                 onChange={handleChange}
                 placeholder="# Tu Nombre..."
                 spellCheck="false"
+                aria-label="Contenido del CV en Markdown"
             />
         </div>
     );

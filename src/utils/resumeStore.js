@@ -1,9 +1,9 @@
 // Simple pub/sub store for resume content
 // Handles persistence to localStorage automatically
 
-const STORAGE_KEY = 'cv_markdown_content';
+export const STORAGE_KEY = 'cv_markdown_content';
 
-const DEFAULT_CONTENT = `# NOMBRE COMPLETO
+export const DEFAULT_CONTENT = `# NOMBRE COMPLETO
 Ciudad, País
 Correo | Teléfono | LinkedIn | Portafolio | GitHub
 
