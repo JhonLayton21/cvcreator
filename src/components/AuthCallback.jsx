@@ -51,7 +51,7 @@ export default function AuthCallback() {
           {error || message}
         </p>
         {error && (
-          <a href={sessionReady ? '/dashboard' : '/login'} className="mt-5 inline-block font-medium text-blue-600 hover:underline dark:text-blue-400">
+          <a href={sessionReady ? '/dashboard' : '/login'} className="mt-5 inline-block font-medium text-primary hover:underline">
             {sessionReady ? 'Ir al panel sin migrar el CV' : 'Volver a iniciar sesión'}
           </a>
         )}

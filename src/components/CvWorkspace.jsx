@@ -149,7 +149,7 @@ export default function CvWorkspace({ cvId }) {
           <p className="mt-2 text-sm text-slate-500 dark:text-slate-400">
             {loadError || 'La ruta solicitada no existe o no pertenece a tu cuenta.'}
           </p>
-          <Button onClick={() => { if (typeof window !== 'undefined') window.location.href = '/dashboard'; }} className="mt-4 bg-blue-600 text-white hover:bg-blue-700">
+          <Button onClick={() => { if (typeof window !== 'undefined') window.location.href = '/dashboard'; }} className="mt-4 bg-primary text-primary-foreground hover:bg-primary/90">
             Volver al panel
           </Button>
         </div>

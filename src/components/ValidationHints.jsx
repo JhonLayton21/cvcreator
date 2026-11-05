@@ -87,7 +87,7 @@ export default function ValidationHints({ compact = false }) {
         onClick={() => setPanelOpen(true)}
         className={compact
           ? "inline-flex h-7 items-center gap-1.5 border border-slate-200 bg-white px-2 text-[10px] font-medium text-slate-700 transition hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200 dark:hover:bg-slate-800"
-          : "fixed bottom-6 left-6 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-blue-600 text-white shadow-lg transition hover:scale-105"}
+          : "fixed bottom-6 left-6 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-lg transition hover:scale-105"}
         aria-label={hintLabel}
       >
         <Info className={compact ? "h-3.5 w-3.5" : "h-6 w-6"} />

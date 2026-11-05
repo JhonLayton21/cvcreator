@@ -47,11 +47,11 @@
 }
 
 .file-name-input {
-  @apply flex-1 px-3 py-2 border border-gray-300 dark:border-input rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-ring font-sans bg-background text-foreground transition-colors duration-300;
+  @apply flex-1 px-3 py-2 border border-gray-300 dark:border-input rounded-md focus:outline-none focus:ring-2 focus:ring-ring font-sans bg-background text-foreground transition-colors duration-300;
 }
 
 .export-btn {
-  @apply px-4 py-2 bg-blue-600 text-white rounded-md font-semibold hover:bg-blue-700 transition-colors cursor-pointer;
+  @apply px-4 py-2 bg-primary text-primary-foreground rounded-md font-semibold hover:bg-primary/90 transition-colors cursor-pointer;
 }
 
 .export-btn:disabled {
@@ -104,7 +104,7 @@
 }
 
 .warning-item.info {
-  @apply bg-blue-50 dark:bg-blue-950/30 border-l-4 border-blue-400 dark:border-blue-500 text-blue-800 dark:text-blue-200;
+  @apply bg-secondary dark:bg-muted border-l-4 border-border text-secondary-foreground dark:text-foreground;
 }
 
 .warning-item strong {
@@ -134,8 +134,8 @@
 }
 
 .validation-floating-btn {
-  @apply fixed bottom-6 left-6 z-40 w-14 h-14 rounded-full flex items-center justify-center text-white shadow-lg cursor-pointer transition-transform hover:scale-105 active:scale-95;
-  @apply bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600;
+  @apply fixed bottom-6 left-6 z-40 w-14 h-14 rounded-full flex items-center justify-center text-primary-foreground shadow-lg cursor-pointer transition-transform hover:scale-105 active:scale-95;
+  @apply bg-primary hover:bg-primary/90;
   animation: validation-float 2.5s ease-in-out infinite;
 }
 
@@ -160,6 +160,17 @@
 }
 
 @theme inline {
+  --color-slate-50: var(--color-neutral-50);
+  --color-slate-100: var(--color-neutral-100);
+  --color-slate-200: var(--color-neutral-200);
+  --color-slate-300: var(--color-neutral-300);
+  --color-slate-400: var(--color-neutral-400);
+  --color-slate-500: var(--color-neutral-500);
+  --color-slate-600: var(--color-neutral-600);
+  --color-slate-700: var(--color-neutral-700);
+  --color-slate-800: var(--color-neutral-800);
+  --color-slate-900: var(--color-neutral-900);
+  --color-slate-950: var(--color-neutral-950);
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -254,15 +265,15 @@
   --border: oklch(1 0 0 / 10%);
   --input: oklch(1 0 0 / 15%);
   --ring: oklch(0.553 0.013 58.071);
-  --chart-1: oklch(0.488 0.243 264.376);
+  --chart-1: oklch(0.646 0.222 41.116);
   --chart-2: oklch(0.696 0.17 162.48);
   --chart-3: oklch(0.769 0.188 70.08);
   --chart-4: oklch(0.627 0.265 303.9);
   --chart-5: oklch(0.645 0.246 16.439);
   --sidebar: oklch(0.216 0.006 56.043);
   --sidebar-foreground: oklch(0.985 0.001 106.423);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0.001 106.423);
+  --sidebar-primary: var(--primary);
+  --sidebar-primary-foreground: var(--primary-foreground);
   --sidebar-accent: oklch(0.268 0.007 34.298);
   --sidebar-accent-foreground: oklch(0.985 0.001 106.423);
   --sidebar-border: oklch(1 0 0 / 10%);

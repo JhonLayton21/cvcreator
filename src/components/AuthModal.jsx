@@ -89,7 +89,7 @@ export default function AuthModal({ open, onClose, onAuth }) {
       >
         <div className="flex items-center justify-between border-b border-border px-5 py-4">
           <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-blue-600 dark:text-blue-400">
+            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-primary">
               CV Creator
             </p>
             <h3 className="text-xl font-bold text-slate-900 dark:text-white">
@@ -114,7 +114,7 @@ export default function AuthModal({ open, onClose, onAuth }) {
             type="button"
             className={`flex-1 rounded-lg px-3 py-2 text-sm font-medium transition ${
               mode === 'login'
-                ? 'bg-blue-600 text-white shadow-sm'
+                ? 'bg-primary text-primary-foreground shadow-sm'
                 : 'text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800'
             }`}
             onClick={() => setMode('login')}
@@ -125,7 +125,7 @@ export default function AuthModal({ open, onClose, onAuth }) {
             type="button"
             className={`flex-1 rounded-lg px-3 py-2 text-sm font-medium transition ${
               mode === 'register'
-                ? 'bg-blue-600 text-white shadow-sm'
+                ? 'bg-primary text-primary-foreground shadow-sm'
                 : 'text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800'
             }`}
             onClick={() => setMode('register')}
@@ -144,7 +144,7 @@ export default function AuthModal({ open, onClose, onAuth }) {
                 value={name}
                 onChange={(event) => setName(event.target.value)}
                 autoComplete="name"
-                className="w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 outline-none ring-0 transition focus:border-blue-500 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100"
+                className="w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 outline-none ring-0 transition focus:border-ring dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100"
                 placeholder="Tu nombre"
                 required
               />
@@ -162,7 +162,7 @@ export default function AuthModal({ open, onClose, onAuth }) {
                 value={email}
                 onChange={(event) => setEmail(event.target.value)}
                 autoComplete="email"
-                className="w-full rounded-md border border-slate-300 bg-white py-2 pl-9 pr-3 text-sm text-slate-900 outline-none transition focus:border-blue-500 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100"
+                className="w-full rounded-md border border-slate-300 bg-white py-2 pl-9 pr-3 text-sm text-slate-900 outline-none transition focus:border-ring dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100"
                 placeholder="tucorreo@ejemplo.com"
                 required
               />
@@ -178,7 +178,7 @@ export default function AuthModal({ open, onClose, onAuth }) {
               value={password}
               onChange={(event) => setPassword(event.target.value)}
               autoComplete={mode === 'login' ? 'current-password' : 'new-password'}
-              className="w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 outline-none transition focus:border-blue-500 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100"
+              className="w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 outline-none transition focus:border-ring dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100"
               placeholder="••••••••"
               minLength={6}
               required
@@ -188,7 +188,7 @@ export default function AuthModal({ open, onClose, onAuth }) {
           {error && <p role="alert" className="text-sm text-red-600 dark:text-red-400">{error}</p>}
           {message && <p role="status" className="text-sm text-green-700 dark:text-green-400">{message}</p>}
 
-          <Button type="submit" disabled={loading} className="w-full bg-blue-600 text-white hover:bg-blue-700">
+          <Button type="submit" disabled={loading} className="w-full bg-primary text-primary-foreground hover:bg-primary/90">
             {loading ? 'Conectando...' : mode === 'login' ? 'Entrar' : 'Crear cuenta'}
           </Button>
 
