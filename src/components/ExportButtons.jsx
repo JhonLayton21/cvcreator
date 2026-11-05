@@ -138,7 +138,10 @@ export default function ExportButtons({ content: contentOverride, fileName: init
     <>
       <button
         type="button"
-        onClick={() => setPanelOpen(true)}
+        onClick={() => {
+          setFileName(initialFileName || "curriculum");
+          setPanelOpen(true);
+        }}
         className={compact
           ? "inline-flex h-8 items-center gap-1.5 rounded-sm bg-slate-950 px-2.5 text-xs font-medium text-white transition hover:bg-slate-800 dark:bg-white dark:text-slate-950 dark:hover:bg-slate-200"
           : "fixed bottom-6 right-6 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-black text-white shadow-lg transition hover:scale-105"}
