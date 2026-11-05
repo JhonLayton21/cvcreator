@@ -90,50 +90,6 @@ export default function ExportButtons({ content: contentOverride, fileName: init
     }
   };
 
-  const ExportPanelContent = () => (
-    <div>
-      <Field>
-        <FieldLabel>Nombre del archivo:</FieldLabel>
-        <FieldContent>
-          <Input
-            type="text"
-            value={fileName}
-            onChange={(e) => setFileName(e.target.value)}
-            placeholder="Nombre del archivo"
-          />
-        </FieldContent>
-      </Field>
-
-      <div className="flex gap-3 flex-wrap justify-end mt-6">
-        <Button onClick={downloadMarkdown} disabled={isExporting}>
-          <FileText className="h-4 w-4" />
-          Markdown (.md)
-        </Button>
-
-        <Button onClick={handleExportDocx} disabled={isExporting}>
-          <FileType className="h-4 w-4" />
-          Word (.docx)
-        </Button>
-
-        <Button onClick={handleExportPdf} disabled={isExporting}>
-          <FileDown className="h-4 w-4" />
-          PDF
-        </Button>
-
-        <Button onClick={handleExportEnglishPdf} disabled={isExporting}>
-          <Globe className="h-4 w-4" />
-          Download CV in English (PDF)
-        </Button>
-      </div>
-
-      {isExporting && (
-        <p className="text-sm text-muted-foreground mt-4">
-          Exportando...
-        </p>
-      )}
-    </div>
-  );
-
   return (
     <>
       <button
@@ -179,7 +135,47 @@ export default function ExportButtons({ content: contentOverride, fileName: init
               </button>
             </div>
 
-            <ExportPanelContent />
+            <div>
+              <Field>
+                <FieldLabel>Nombre del archivo:</FieldLabel>
+                <FieldContent>
+                  <Input
+                    type="text"
+                    value={fileName}
+                    onChange={(e) => setFileName(e.target.value)}
+                    placeholder="Nombre del archivo"
+                  />
+                </FieldContent>
+              </Field>
+
+              <div className="flex gap-3 flex-wrap justify-end mt-6">
+                <Button onClick={downloadMarkdown} disabled={isExporting}>
+                  <FileText className="h-4 w-4" />
+                  Markdown (.md)
+                </Button>
+
+                <Button onClick={handleExportDocx} disabled={isExporting}>
+                  <FileType className="h-4 w-4" />
+                  Word (.docx)
+                </Button>
+
+                <Button onClick={handleExportPdf} disabled={isExporting}>
+                  <FileDown className="h-4 w-4" />
+                  PDF
+                </Button>
+
+                <Button onClick={handleExportEnglishPdf} disabled={isExporting}>
+                  <Globe className="h-4 w-4" />
+                  Download CV in English (PDF)
+                </Button>
+              </div>
+
+              {isExporting && (
+                <p className="text-sm text-muted-foreground mt-4">
+                  Exportando...
+                </p>
+              )}
+            </div>
           </div>
         </div>
       )}
