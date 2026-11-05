@@ -377,24 +377,65 @@ export default function DashboardPanel() {
             </div>
 
             {filteredItems.map((cv) => (
-              <div key={cv.id} className="grid min-w-[760px] gap-3 border-b border-slate-200 px-4 py-4 last:border-b-0 dark:border-slate-800 md:grid-cols-[2fr_1.2fr_1fr_1.2fr_1.6fr] md:items-center">
+              <div key={cv.id} className="grid grid-cols-2 gap-x-4 gap-y-3 border-b border-slate-200 px-4 py-4 last:border-b-0 dark:border-slate-800 md:min-w-[760px] md:grid-cols-[2fr_1.2fr_1fr_1.2fr_1.6fr] md:items-center">
                 <button
                   type="button"
                   onClick={() => { window.location.href = `/editor/${cv.id}`; }}
-                  className="text-left font-medium hover:underline"
+                  aria-label={`Abrir ${cv.title}`}
+                  title="Abrir CV"
+                  className="col-span-2 text-left font-medium hover:underline md:col-span-1"
                 >
                   {cv.title}
                 </button>
-                <span className="text-sm text-slate-600 dark:text-slate-300">{cv.template || 'default'}</span>
-                <span className="text-sm text-slate-600 dark:text-slate-300">{formatDate(cv.createdAt)}</span>
-                <span className="text-sm text-slate-600 dark:text-slate-300">{formatDate(cv.updatedAt)}</span>
-                <div className="flex flex-wrap gap-2">
-                  <Button variant="outline" size="sm" onClick={() => { window.location.href = `/editor/${cv.id}`; }}>
-                    Abrir
-                  </Button>
-                  <Button variant="ghost" size="sm" onClick={() => handleRename(cv)}>Renombrar</Button>
-                  <Button variant="ghost" size="sm" onClick={() => handleDuplicate(cv)}>Duplicar</Button>
-                  <Button variant="ghost" size="sm" className="text-red-600 hover:text-red-700 dark:text-red-400" onClick={() => handleDelete(cv)}>Eliminar</Button>
+                <span className="text-sm text-slate-600 dark:text-slate-300">
+                  <span className="mr-1 text-[10px] text-slate-500 md:hidden">Plantilla</span>
+                  {cv.template || 'default'}
+                </span>
+                <span className="text-sm text-slate-600 dark:text-slate-300">
+                  <span className="mr-1 text-[10px] text-slate-500 md:hidden">Creación</span>
+                  {formatDate(cv.createdAt)}
+                </span>
+                <span className="text-sm text-slate-600 dark:text-slate-300">
+                  <span className="mr-1 text-[10px] text-slate-500 md:hidden">Actualización</span>
+                  {formatDate(cv.updatedAt)}
+                </span>
+                <div className="col-span-2 flex items-center gap-1 md:col-span-1 md:justify-end">
+                  <button
+                    type="button"
+                    onClick={() => { window.location.href = `/editor/${cv.id}`; }}
+                    aria-label={`Abrir ${cv.title}`}
+                    title="Abrir CV"
+                    className="flex h-8 w-8 items-center justify-center rounded-sm text-slate-600 transition hover:bg-slate-100 hover:text-slate-900 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-white"
+                  >
+                    <FileText className="h-4 w-4" />
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => handleRename(cv)}
+                    aria-label={`Renombrar ${cv.title}`}
+                    title="Renombrar"
+                    className="flex h-8 w-8 items-center justify-center rounded-sm text-slate-600 transition hover:bg-slate-100 hover:text-slate-900 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-white"
+                  >
+                    <Pencil className="h-4 w-4" />
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => handleDuplicate(cv)}
+                    aria-label={`Duplicar ${cv.title}`}
+                    title="Duplicar"
+                    className="flex h-8 w-8 items-center justify-center rounded-sm text-slate-600 transition hover:bg-slate-100 hover:text-slate-900 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-white"
+                  >
+                    <Copy className="h-4 w-4" />
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => handleDelete(cv)}
+                    aria-label={`Eliminar ${cv.title}`}
+                    title="Eliminar"
+                    className="flex h-8 w-8 items-center justify-center rounded-sm text-red-600 transition hover:bg-red-50 hover:text-red-700 dark:text-red-400 dark:hover:bg-red-950/40"
+                  >
+                    <Trash2 className="h-4 w-4" />
+                  </button>
                 </div>
               </div>
             ))}
